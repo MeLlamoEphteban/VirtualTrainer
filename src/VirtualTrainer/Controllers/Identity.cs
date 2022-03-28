@@ -71,5 +71,22 @@ namespace VirtualTrainer.Controllers
             // If we got this far, something failed, redisplay form
             return View(loginModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout([FromServices] SignInManager<IdentityUser> signInManager, [FromServices] ILogger<LogoutModel> logger, LogoutModel logoutModel, string returnUrl = null)
+        {
+            logoutModel._signInManager = signInManager;
+            logoutModel._logger = logger;
+            await signInManager.SignOutAsync();
+            logger.LogInformation("User logged out");
+            if(returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return View(logoutModel);
+            }
+        }
     }
 }
