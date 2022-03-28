@@ -1,0 +1,36 @@
+﻿@model IEnumerable<VirtualTrainer.Models.GymViewModels.GymGroup>
+
+@{
+    ViewData["Title"] = "Subscribed Users";
+}
+
+<h2>Statistics</h2>
+<h3>Number of users registered sorted by date:</h3>
+
+<table>
+    <tr>
+        <th width="150">
+            Date
+        </th>
+        <th>
+            Users
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubscriptionDate)
+            </td>
+            <td>
+                @item.UserCount
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<div>
+    <a asp-action="About">Back to List</a>
+</div>

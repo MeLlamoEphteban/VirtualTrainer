@@ -1,0 +1,27 @@
+﻿@model VirtualTrainer.Models.ViewModels.DetailsUser
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h3>Work Programs</h3>
+    <h4>Selected user is @Model.user.Name .</h4>
+    <dd class="col-sm-10">
+        <table class="table">
+            <tr>
+                <th>Program Name</th>
+            </tr>
+            @foreach(var vp in Model.workPrograms)
+            {
+                <tr>
+                    <td>@vp.ProgramName</td>
+                </tr>
+            }
+        </table>
+    </dd>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

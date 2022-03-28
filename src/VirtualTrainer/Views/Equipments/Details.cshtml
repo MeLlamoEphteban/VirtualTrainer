@@ -1,0 +1,34 @@
+﻿@model VirtualTrainer.Models.ViewModels.EqEx
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h3>Equipment</h3>
+    <h4>Selected equipment is @Model.equipment.EquipmentName .</h4>
+    <dd class="col-sm-10">
+        <table class="table">
+            <tr>
+                <th>Exercises Name</th>
+                <th>Reps</th>
+                <th>Sets</th>
+                <th>Instructions</th>
+            </tr>
+            @foreach(var vp in Model.exercises)
+            {
+                <tr>
+                    <td>@vp.ExerciseName</td>
+                    <td>@vp.Reps</td>
+                    <td>@vp.Sets</td>
+                    <td>@vp.Instructions</td>
+                </tr>
+            }
+        </table>
+    </dd>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
