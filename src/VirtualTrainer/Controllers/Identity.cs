@@ -71,7 +71,15 @@ namespace VirtualTrainer.Controllers
             // If we got this far, something failed, redisplay form
             return View(loginModel);
         }
+        [HttpGet]
+        public async Task<IActionResult> Logout([FromServices] SignInManager<IdentityUser> signInManager, [FromServices] ILogger<LogoutModel> logger)
+        {
+            var logoutModel = new LogoutModel();
+            logoutModel._signInManager = signInManager;
+            logoutModel._logger = logger;
+            return View(logoutModel);
 
+        }
         [HttpPost]
         public async Task<IActionResult> Logout([FromServices] SignInManager<IdentityUser> signInManager, [FromServices] ILogger<LogoutModel> logger, LogoutModel logoutModel, string returnUrl = null)
         {
