@@ -74,7 +74,9 @@ namespace VirtualTrainer
             {
                 entity.Property(e => e.Email).HasMaxLength(256);
 
-                entity.Property(e => e.Iduser).HasColumnName("IDUser");
+                entity.Property(e => e.Iduser)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("IDUser");
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
@@ -85,6 +87,7 @@ namespace VirtualTrainer
                 entity.HasOne(d => d.IduserNavigation)
                     .WithMany(p => p.AspNetUsers)
                     .HasForeignKey(d => d.Iduser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AspNetUsers_Users");
             });
 
