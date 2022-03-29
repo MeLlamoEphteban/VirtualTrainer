@@ -75,11 +75,18 @@ namespace VirtualTrainer
             {
                 entity.Property(e => e.Email).HasMaxLength(256);
 
+                entity.Property(e => e.Iduser).HasColumnName("IDUser");
+
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasOne(d => d.IduserNavigation)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.Iduser)
+                    .HasConstraintName("FK_AspNetUsers_Users");
             });
 
             modelBuilder.Entity<AspNetUserClaim>(entity =>
@@ -331,15 +338,15 @@ namespace VirtualTrainer
                     .HasMaxLength(13)
                     .HasColumnName("CNP");
 
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Surname)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
             });

@@ -6,7 +6,7 @@ namespace VirtualTrainer.Models.ViewModels
     {
         public int Idsubscription { get; set; }
         public int Iduser { get; set; }
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }

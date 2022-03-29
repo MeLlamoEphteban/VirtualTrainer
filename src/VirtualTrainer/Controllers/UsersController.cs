@@ -52,7 +52,7 @@ namespace VirtualTrainer.Controllers
             switch (sortOrder)
             {
                 case "name_desc":
-                    users = users.OrderByDescending(s => s.Username);
+                    users = users.OrderByDescending(s => s.Email);
                     break;
                 case "Surname":
                     users = users.OrderBy(s => s.Surname);
@@ -61,7 +61,7 @@ namespace VirtualTrainer.Controllers
                     users = users.OrderByDescending(s => s.Surname);
                     break;
                 default:
-                    users = users.OrderBy(s => s.Username);
+                    users = users.OrderBy(s => s.Email);
                     break;
             }
 
@@ -114,14 +114,14 @@ namespace VirtualTrainer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Username,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate")] UserViewModelAdd user)
+        public async Task<IActionResult> Create([Bind("Email,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate")] UserViewModelAdd user)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var userNew = new User();
-                    userNew.Username = user.Username;
+                    userNew.Email = user.Email;
                     userNew.Name = user.Name;
                     userNew.Surname = user.Surname;
                     userNew.Address = user.Address;
@@ -176,7 +176,7 @@ namespace VirtualTrainer.Controllers
             if (await TryUpdateModelAsync<User>(
                 userToUpdate,
                 "",
-                u => u.Username, u => u.Name, u => u.Surname, u => u.Address, u => u.Phone, u => u.Cnp))
+                u => u.Email, u => u.Name, u => u.Surname, u => u.Address, u => u.Phone, u => u.Cnp))
             {
                 try
                 {
