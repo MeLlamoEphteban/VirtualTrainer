@@ -25,7 +25,6 @@ namespace VirtualTrainer
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<BodyGroup> BodyGroups { get; set; }
-        public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EquipmentExercise> EquipmentExercises { get; set; }
         public virtual DbSet<Exercise> Exercises { get; set; }
@@ -154,13 +153,6 @@ namespace VirtualTrainer
                 entity.Property(e => e.GroupName)
                     .IsRequired()
                     .HasMaxLength(150);
-            });
-
-            modelBuilder.Entity<Contact>(entity =>
-            {
-                entity.ToTable("Contact");
-
-                entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
             });
 
             modelBuilder.Entity<Equipment>(entity =>

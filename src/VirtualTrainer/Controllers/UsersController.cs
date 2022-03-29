@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using VirtualTrainer;
 using VirtualTrainer.Authorization;
 using VirtualTrainer.Models.ViewModels;
 

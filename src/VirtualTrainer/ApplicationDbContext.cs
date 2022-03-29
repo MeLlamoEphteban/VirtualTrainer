@@ -9,6 +9,5 @@ namespace VirtualTrainer
             : base(options)
         {
         }
-        public DbSet<VirtualTrainer.Models.Contact> Contact { get; set; }
     }
 }

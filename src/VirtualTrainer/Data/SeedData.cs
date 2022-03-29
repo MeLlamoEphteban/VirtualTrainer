@@ -96,10 +96,10 @@ namespace VirtualTrainer.Data
 
         public static void SeedDB(ApplicationDbContext context, string adminID)
         {
-            if (context.Contact.Any())
-            {
-                return;   // DB has been seeded
-            }
+            //if (context.Contact.Any())
+            //{
+            //    return;   // DB has been seeded
+            //}
 
             //context.Contact.AddRange(
             //    new Contact
