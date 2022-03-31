@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -111,26 +113,37 @@ namespace VirtualTrainer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate")] UserViewModelAdd user)
+        public async Task<IActionResult> Create([Bind("Email,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate, Password")] UserViewModelAdd userView, [FromServices] IUserStore<IdentityUser> _userStore, [FromServices] UserManager<IdentityUser> _userManager)
         {
             try
             {
+                IUserEmailStore<IdentityUser> _emailStore = GetEmailStore(_userManager, _userStore);
                 if (ModelState.IsValid)
                 {
+                    var user = CreateUser();
+
+                    await _userStore.SetUserNameAsync(user, userView.Email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, userView.Email, CancellationToken.None);
+                    var result = await _userManager.CreateAsync(user, userView.Password);
+                    var userId = await _userManager.GetUserIdAsync(user);
+
                     var userNew = new User();
-                    userNew.Email = user.Email;
-                    userNew.Name = user.Name;
-                    userNew.Surname = user.Surname;
-                    userNew.Address = user.Address;
-                    userNew.Phone = user.Phone;
-                    userNew.Cnp = user.Cnp;
+                    userNew.Email = userView.Email;
+                    userNew.Name = userView.Name;
+                    userNew.Surname = userView.Surname;
+                    userNew.Address = userView.Address;
+                    userNew.Phone = userView.Phone;
+                    userNew.Cnp = userView.Cnp;
+                    userNew.UserAspNet = userId;
                     _context.Add(userNew);
 
                     userNew.UserSubscription = new UserSubscription();
                     //userNew.UserSubscription.StartDate = DateTime.Now;
-                    userNew.UserSubscription.StartDate = user.startDate;
+                    userNew.UserSubscription.StartDate = userView.startDate;
                     userNew.UserSubscription.EndDate = userNew.UserSubscription.StartDate.AddMonths(1);
-                    userNew.UserSubscription.Idsubscription = user.Idsubscription;
+                    userNew.UserSubscription.Idsubscription = userView.Idsubscription;
+
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -143,7 +156,30 @@ namespace VirtualTrainer.Controllers
                     "see your system administrator.");
             }
             PopulateSubscriptionsDropDownList();
-            return View(user);
+            return View(userView);
+        }
+
+        private IUserEmailStore<IdentityUser> GetEmailStore(UserManager<IdentityUser>  _userManager, IUserStore<IdentityUser> _userStore)
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<IdentityUser>)_userStore;
+        }
+
+        private IdentityUser CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<IdentityUser>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
+                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
         }
 
         // GET: Users/Edit/5

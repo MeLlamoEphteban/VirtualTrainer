@@ -43,6 +43,11 @@
                 <span asp-validation-for="Cnp" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Idsubscription" class="control-label">Subscription name</label>
                 <br />
                 @Html.DropDownListFor(it => it.Idsubscription, (SelectListItem[])ViewBag.SubscriptionID)
@@ -54,6 +59,7 @@
                 <span asp-validation-for="startDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <button type="button" onclick="return generatePass()">Generate Password</button>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -66,4 +72,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   <script>window.alert("Salut")
+
+  // const button = document
+  //.querySelector('.generate-pass')
+  //.addEventListener('click', generatePass);
+
+//const display = document.querySelector('.show-pass');
+
+function generatePass() {
+  let passLength = 8;
+  let pass = 0;
+  let chars =
+    '0123456789abcdefghijklmnopqrstuvwxyz!#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  for (let i = 0; i <= passLength; i++) {
+    let randomNumber = Math.floor(Math.random() * chars.length);
+    pass += chars.substring(randomNumber, randomNumber + 1);
+  }
+  var Password = document.getElementById("Password");
+  Password.value = pass;
+  return false;
+}
+   </script>
 }

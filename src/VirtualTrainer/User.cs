@@ -9,7 +9,6 @@ namespace VirtualTrainer
     {
         public User()
         {
-            AspNetUsers = new HashSet<AspNetUser>();
             ProgramUsers = new HashSet<ProgramUser>();
             UsersExercises = new HashSet<UsersExercise>();
         }
@@ -21,9 +20,10 @@ namespace VirtualTrainer
         public string Address { get; set; }
         public int Phone { get; set; }
         public string Cnp { get; set; }
+        public string UserAspNet { get; set; }
 
+        public virtual AspNetUser UserAspNetNavigation { get; set; }
         public virtual UserSubscription UserSubscription { get; set; }
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         public virtual ICollection<ProgramUser> ProgramUsers { get; set; }
         public virtual ICollection<UsersExercise> UsersExercises { get; set; }
     }

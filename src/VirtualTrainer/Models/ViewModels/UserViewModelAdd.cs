@@ -17,5 +17,7 @@ namespace VirtualTrainer.Models.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime startDate { get; set; }
+
+        public string Password { get; set; }
     }
 }
