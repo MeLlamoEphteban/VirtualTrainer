@@ -9,6 +9,7 @@ namespace VirtualTrainer
     {
         public User()
         {
+            PersonalWorkouts = new HashSet<PersonalWorkout>();
             ProgramUsers = new HashSet<ProgramUser>();
             UsersExercises = new HashSet<UsersExercise>();
         }
@@ -24,6 +25,7 @@ namespace VirtualTrainer
 
         public virtual AspNetUser UserAspNetNavigation { get; set; }
         public virtual UserSubscription UserSubscription { get; set; }
+        public virtual ICollection<PersonalWorkout> PersonalWorkouts { get; set; }
         public virtual ICollection<ProgramUser> ProgramUsers { get; set; }
         public virtual ICollection<UsersExercise> UsersExercises { get; set; }
     }

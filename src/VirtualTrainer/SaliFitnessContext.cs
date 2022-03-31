@@ -29,6 +29,7 @@ namespace VirtualTrainer
         public virtual DbSet<EquipmentExercise> EquipmentExercises { get; set; }
         public virtual DbSet<Exercise> Exercises { get; set; }
         public virtual DbSet<GroupEquipment> GroupEquipments { get; set; }
+        public virtual DbSet<PersonalWorkout> PersonalWorkouts { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
         public virtual DbSet<ProgramUser> ProgramUsers { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
@@ -228,6 +229,31 @@ namespace VirtualTrainer
                     .WithMany(p => p.GroupEquipments)
                     .HasForeignKey(d => d.Idequipment)
                     .HasConstraintName("FK_Group_Equipment_Equipment");
+            });
+
+            modelBuilder.Entity<PersonalWorkout>(entity =>
+            {
+                entity.HasKey(e => e.PersWorkoutId);
+
+                entity.Property(e => e.PersWorkoutId).HasColumnName("PersWorkoutID");
+
+                entity.Property(e => e.BodyGroup)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Exercises).IsRequired();
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.WorkoutName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PersonalWorkouts)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PersonalWorkouts_Users");
             });
 
             modelBuilder.Entity<ProgramType>(entity =>
