@@ -142,6 +142,7 @@ namespace VirtualTrainer.Controllers
                     "Try again, and if the problem persists " +
                     "see your system administrator.");
             }
+            PopulateSubscriptionsDropDownList();
             return View(user);
         }
 
