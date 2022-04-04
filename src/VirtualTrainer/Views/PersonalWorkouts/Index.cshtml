@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VirtualTrainer.PersonalWorkout>
+﻿@model VirtualTrainer.Models.ViewModels.IndexSelector
 
 @{
     ViewData["Title"] = "Index";
@@ -13,28 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.WorkoutName)
+                Workout Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BodyGroup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Exercises)
+               Body Group
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+            @foreach (var item in Model.personalWorkouts) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.WorkoutName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BodyGroup)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Exercises)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PersWorkoutId">Edit</a> |

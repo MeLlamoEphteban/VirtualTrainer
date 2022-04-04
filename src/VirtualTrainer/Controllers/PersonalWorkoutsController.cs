@@ -19,10 +19,19 @@ namespace VirtualTrainer.Controllers
         }
 
         //GET items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices] UserManager<IdentityUser> _userManager)
         {
-            var saliFitnessContext = _context.PersonalWorkouts.Include(p => p.User);
-            return View(await saliFitnessContext.ToArrayAsync());
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
+            var userFinal = userStart[0].Iduser; //find the exact ID, example 27
+            var PersonalWorkoutID = _context.PersonalWorkouts.Where(u => u.UserId == userFinal).ToArray(); //in table, get all entries where id=27
+            var IDPersonalWorkout = PersonalWorkoutID.Select(it => it.PersWorkoutId).ToArray(); //in the above var, select all workout ids
+            var PersonalWorkouts = await _context.PersonalWorkouts.Where(wp => IDPersonalWorkout.Contains(wp.PersWorkoutId)).ToArrayAsync();
+
+            var indexSelector = new IndexSelector();
+            indexSelector.personalWorkouts = PersonalWorkouts;
+
+            return View(indexSelector); //return just the users entries
         }
 
         //GET details
