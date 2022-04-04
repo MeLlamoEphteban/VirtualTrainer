@@ -22,10 +22,30 @@
                 <input asp-for="BodyGroup" class="form-control" />
                 <span asp-validation-for="BodyGroup" class="text-danger"></span>
             </div>
+            Exercises:
             <div class="form-group">
-                <label asp-for="Exercises" class="control-label"></label>
-                <input asp-for="Exercises" class="form-control" />
-                <span asp-validation-for="Exercises" class="text-danger"></span>
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                List<VirtualTrainer.Models.ViewModels.ExbodyList> exercises = ViewBag.Exercises;
+
+                                foreach(var ex in exercises)
+                                {
+                                    if(cnt++ % 14 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                    <input type="checkbox" name="selectExercises" value="@ex.ExerciseID" />
+                                            @ex.ExerciseID @: @ex.ExerciseName
+                                    @:</td>
+                                }
+                                @:</tr>
+                            }
+                    </table>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

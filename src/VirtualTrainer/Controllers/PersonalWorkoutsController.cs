@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using VirtualTrainer.Models.ViewModels;
 
 namespace VirtualTrainer.Controllers
 {
@@ -44,7 +46,7 @@ namespace VirtualTrainer.Controllers
         //GET create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Iduser", "Email");
+            PopulateExercisesList();
             return View();
         }
 
@@ -52,14 +54,29 @@ namespace VirtualTrainer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout)
         {
+            PopulateExercisesList();
             if (ModelState.IsValid)
             {
                 _context.Add(personalWorkout);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Iduser", "Email", personalWorkout.UserId);
             return View(personalWorkout);
+        }
+
+        private void PopulateExercisesList()
+        {
+            var allExercises = _context.Exercises;
+            var viewModel = new List<ExbodyList>();
+            foreach (var exercise in allExercises)
+            {
+                viewModel.Add(new ExbodyList
+                {
+                    ExerciseID = exercise.Idexercise,
+                    ExerciseName = exercise.ExerciseName
+                });
+            }
+            ViewData["Exercises"] = viewModel;
         }
 
         // GET: PersonalWorkouts/Edit/5
@@ -75,7 +92,6 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Iduser", "Email", personalWorkout.UserId);
             return View(personalWorkout);
         }
 
@@ -109,7 +125,6 @@ namespace VirtualTrainer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Iduser", "Email", personalWorkout.UserId);
             return View(personalWorkout);
         }
 
@@ -128,7 +143,6 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound();
             }
-
             return View(personalWorkout);
         }
 
