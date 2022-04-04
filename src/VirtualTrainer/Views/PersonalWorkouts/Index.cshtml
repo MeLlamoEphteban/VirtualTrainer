@@ -1,0 +1,47 @@
+﻿@model IEnumerable<VirtualTrainer.PersonalWorkout>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkoutName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BodyGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Exercises)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkoutName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BodyGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Exercises)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PersWorkoutId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PersWorkoutId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PersWorkoutId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
