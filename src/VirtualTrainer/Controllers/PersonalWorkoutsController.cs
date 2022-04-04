@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using VirtualTrainer.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace VirtualTrainer.Controllers
 {
@@ -52,16 +53,28 @@ namespace VirtualTrainer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout)
+        public async Task<IActionResult> Create([Bind("WorkoutName, BodyGroup, Exercises")] UserAddsProgram userAddsProgram, [FromServices] UserManager<IdentityUser> _userManager)
         {
             PopulateExercisesList();
             if (ModelState.IsValid)
             {
-                _context.Add(personalWorkout);
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
+                if(userStart == null)
+                {
+                    return NotFound("No user found with id");
+                }
+
+                var userWorkout = new PersonalWorkout();
+                userWorkout.UserId = userStart[0].Iduser;
+                userWorkout.WorkoutName = userAddsProgram.WorkoutName;
+                userWorkout.BodyGroup = userAddsProgram.BodyGroup;
+                userWorkout.Exercises = userAddsProgram.Exercises.ToString();
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(personalWorkout);
+            return View(userAddsProgram);
         }
 
         private void PopulateExercisesList()
