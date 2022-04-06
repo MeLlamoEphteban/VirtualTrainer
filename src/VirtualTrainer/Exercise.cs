@@ -10,6 +10,7 @@ namespace VirtualTrainer
         public Exercise()
         {
             EquipmentExercises = new HashSet<EquipmentExercise>();
+            ExerciseAssignments = new HashSet<ExerciseAssignment>();
             UsersExercises = new HashSet<UsersExercise>();
         }
 
@@ -21,6 +22,7 @@ namespace VirtualTrainer
         public string Instructions { get; set; }
 
         public virtual ICollection<EquipmentExercise> EquipmentExercises { get; set; }
+        public virtual ICollection<ExerciseAssignment> ExerciseAssignments { get; set; }
         public virtual ICollection<UsersExercise> UsersExercises { get; set; }
     }
 }

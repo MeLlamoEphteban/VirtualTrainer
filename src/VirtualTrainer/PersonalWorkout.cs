@@ -7,6 +7,11 @@ namespace VirtualTrainer
 {
     public partial class PersonalWorkout
     {
+        public PersonalWorkout()
+        {
+            ExerciseAssignments = new HashSet<ExerciseAssignment>();
+        }
+
         public int PersWorkoutId { get; set; }
         public int UserId { get; set; }
         public string WorkoutName { get; set; }
@@ -14,5 +19,6 @@ namespace VirtualTrainer
         public string Exercises { get; set; }
 
         public virtual User User { get; set; }
+        public virtual ICollection<ExerciseAssignment> ExerciseAssignments { get; set; }
     }
 }

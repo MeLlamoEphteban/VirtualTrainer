@@ -29,7 +29,7 @@
                         <tr>
                             @{
                                 int cnt = 0;
-                                List<VirtualTrainer.Models.ViewModels.ExbodyList> exercises = ViewBag.Exercises;
+                                List<VirtualTrainer.Models.ViewModels.UserAddsProgram> exercises = ViewBag.Exercises;
 
                                 foreach(var ex in exercises)
                                 {
@@ -38,8 +38,8 @@
                                         @:</tr><tr>
                                     }
                                     @:<td>
-                                    <input type="checkbox" name="selectExercises" value="@ex.ExerciseID" />
-                                            @ex.ExerciseID @: @ex.ExerciseName
+                                    <input type="checkbox" name="selectedExercises" value="@ex.ExerciseID" @(Html.Raw(ex.Assigned ? "checked=\"checked\"" : ""))/>
+                                            @ex.ExerciseID @: @ex.Name
                                     @:</td>
                                 }
                                 @:</tr>

@@ -28,6 +28,7 @@ namespace VirtualTrainer
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<EquipmentExercise> EquipmentExercises { get; set; }
         public virtual DbSet<Exercise> Exercises { get; set; }
+        public virtual DbSet<ExerciseAssignment> ExerciseAssignments { get; set; }
         public virtual DbSet<GroupEquipment> GroupEquipments { get; set; }
         public virtual DbSet<PersonalWorkout> PersonalWorkouts { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
@@ -204,6 +205,29 @@ namespace VirtualTrainer
                 entity.Property(e => e.Sets).HasDefaultValueSql("((3))");
 
                 entity.Property(e => e.Weight).HasDefaultValueSql("((5))");
+            });
+
+            modelBuilder.Entity<ExerciseAssignment>(entity =>
+            {
+                entity.ToTable("ExerciseAssignment");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ExerciseId).HasColumnName("ExerciseID");
+
+                entity.Property(e => e.PersonalWorkoutId).HasColumnName("PersonalWorkoutID");
+
+                entity.HasOne(d => d.Exercise)
+                    .WithMany(p => p.ExerciseAssignments)
+                    .HasForeignKey(d => d.ExerciseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ExerciseAssignment_Exercises");
+
+                entity.HasOne(d => d.PersonalWorkout)
+                    .WithMany(p => p.ExerciseAssignments)
+                    .HasForeignKey(d => d.PersonalWorkoutId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ExerciseAssignment_PersonalWorkouts");
             });
 
             modelBuilder.Entity<GroupEquipment>(entity =>

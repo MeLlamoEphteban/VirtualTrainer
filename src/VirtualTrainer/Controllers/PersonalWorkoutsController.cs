@@ -56,46 +56,97 @@ namespace VirtualTrainer.Controllers
         //GET create
         public IActionResult Create()
         {
-            PopulateExercisesList();
+            //PopulateExercisesList();
+            var persWorkout = new PersonalWorkout();
+            persWorkout.ExerciseAssignments = new List<ExerciseAssignment>();
+            PopulateAssignedExerciseData(persWorkout);
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WorkoutName, BodyGroup, Exercises")] UserAddsProgram userAddsProgram, [FromServices] UserManager<IdentityUser> _userManager)
+        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout, [FromServices] UserManager<IdentityUser> _userManager, string[] selectedExercises)
         {
-            PopulateExercisesList();
+            if(selectedExercises != null)
+            {
+                personalWorkout.ExerciseAssignments = new List<ExerciseAssignment>();
+                foreach(var ex in selectedExercises)
+                {
+                    var exerciseToAdd = new ExerciseAssignment { PersonalWorkoutId = personalWorkout.PersWorkoutId, ExerciseId = int.Parse(ex) };
+                    personalWorkout.ExerciseAssignments.Add(exerciseToAdd);
+                }
+            }
+
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
+            personalWorkout.UserId = userStart[0].Iduser;
+
+            //PopulateExercisesList();
             if (ModelState.IsValid)
             {
-                var userId = _userManager.GetUserId(HttpContext.User);
-                var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
-                if(userStart == null)
-                {
-                    return NotFound("No user found with id");
-                }
-
-                var userWorkout = new PersonalWorkout();
-                userWorkout.UserId = userStart[0].Iduser;
-                userWorkout.WorkoutName = userAddsProgram.WorkoutName;
-                userWorkout.BodyGroup = userAddsProgram.BodyGroup;
-                userWorkout.Exercises = userAddsProgram.Exercises.ToString();
-
+                _context.Add(personalWorkout);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(userAddsProgram);
+
+            PopulateAssignedExerciseData(personalWorkout);
+            return View(personalWorkout);
         }
 
-        private void PopulateExercisesList()
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("WorkoutName, BodyGroup, Exercises")] UserAddsProgram userAddsProgram, [FromServices] UserManager<IdentityUser> _userManager)
+        //{
+        //    PopulateExercisesList();
+        //    if (ModelState.IsValid)
+        //    {
+        //        var userId = _userManager.GetUserId(HttpContext.User);
+        //        var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
+        //        if(userStart == null)
+        //        {
+        //            return NotFound("No user found with id");
+        //        }
+
+        //        var userWorkout = new PersonalWorkout();
+        //        userWorkout.UserId = userStart[0].Iduser;
+        //        userWorkout.WorkoutName = userAddsProgram.WorkoutName;
+        //        userWorkout.BodyGroup = userAddsProgram.BodyGroup;
+        //        userWorkout.Exercises = userAddsProgram.Exercises.ToString();
+
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(userAddsProgram);
+        //}
+
+        //private void PopulateExercisesList()
+        //{
+        //    var allExercises = _context.Exercises;
+        //    var viewModel = new List<ExbodyList>();
+        //    foreach (var exercise in allExercises)
+        //    {
+        //        viewModel.Add(new ExbodyList
+        //        {
+        //            ExerciseID = exercise.Idexercise,
+        //            ExerciseName = exercise.ExerciseName
+        //        });
+        //    }
+        //    ViewData["Exercises"] = viewModel;
+        //}
+
+        private void PopulateAssignedExerciseData(PersonalWorkout persWorkout)
         {
             var allExercises = _context.Exercises;
-            var viewModel = new List<ExbodyList>();
+            var workoutExercises = new HashSet<int>(_context.ExerciseAssignments.Select(e => e.ExerciseId)); //(PersonalWorkout.Exercises.Select(c => c.ExerciseID))
+            var viewModel = new List<UserAddsProgram>();
+
             foreach (var exercise in allExercises)
-            {
-                viewModel.Add(new ExbodyList
+    	{
+                viewModel.Add(new UserAddsProgram
                 {
                     ExerciseID = exercise.Idexercise,
-                    ExerciseName = exercise.ExerciseName
+                    Name = exercise.ExerciseName,
+                    Assigned = workoutExercises.Contains(exercise.Idexercise)
                 });
             }
             ViewData["Exercises"] = viewModel;
