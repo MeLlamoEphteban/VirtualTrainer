@@ -265,8 +265,6 @@ namespace VirtualTrainer
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Exercises).IsRequired();
-
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.WorkoutName)

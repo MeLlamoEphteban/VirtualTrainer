@@ -16,7 +16,6 @@ namespace VirtualTrainer
         public int UserId { get; set; }
         public string WorkoutName { get; set; }
         public string BodyGroup { get; set; }
-        public string Exercises { get; set; }
 
         public virtual User User { get; set; }
         public virtual ICollection<ExerciseAssignment> ExerciseAssignments { get; set; }

@@ -65,7 +65,7 @@ namespace VirtualTrainer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout, [FromServices] UserManager<IdentityUser> _userManager, string[] selectedExercises)
+        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup")] PersonalWorkout personalWorkout, [FromServices] UserManager<IdentityUser> _userManager, string[] selectedExercises)
         {
             if(selectedExercises != null)
             {
