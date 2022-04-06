@@ -152,6 +152,38 @@ namespace VirtualTrainer.Controllers
             ViewData["Exercises"] = viewModel;
         }
 
+        //in testing
+        private void UpdateWorkoutExercises(string[] selectedExercises, PersonalWorkout workoutToUpdate)
+        {
+            if (selectedExercises == null)
+            {
+                workoutToUpdate.ExerciseAssignments = new List<ExerciseAssignment>();
+                return;
+            }
+
+            var selectedExercisesHS = new HashSet<string>(selectedExercises);
+            var workoutExercises = new HashSet<int>(workoutToUpdate.ExerciseAssignments.Select(c => c.ExerciseId));
+
+            foreach (var exercise in _context.Exercises)
+            {
+                if (selectedExercisesHS.Contains(exercise.Idexercise.ToString()))
+                {
+                    if (!workoutExercises.Contains(exercise.Idexercise))
+                    {
+                        workoutToUpdate.ExerciseAssignments.Add(new ExerciseAssignment { PersonalWorkoutId = workoutToUpdate.PersWorkoutId, ExerciseId = exercise.Idexercise });
+                    }
+                }
+                else
+                {
+                    if(workoutExercises.Contains(exercise.Idexercise))
+                    {
+                        ExerciseAssignment exercisteToRemove = workoutToUpdate.ExerciseAssignments.FirstOrDefault(i => i.ExerciseId == exercise.Idexercise);
+                        _context.Remove(exercisteToRemove);
+                    }
+                }
+            }
+        }
+
         // GET: PersonalWorkouts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -165,40 +197,74 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound();
             }
+            PopulateAssignedExerciseData(personalWorkout);
             return View(personalWorkout);
         }
 
         // POST: PersonalWorkouts/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout)
+        //{
+        //    if (id != personalWorkout.PersWorkoutId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(personalWorkout);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!PersonalWorkoutExists(personalWorkout.PersWorkoutId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(personalWorkout);
+        //}
+        //in testing
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout)
+        public async Task<IActionResult> Edit(int? id, string[] selectedExercises)
         {
-            if (id != personalWorkout.PersWorkoutId)
+            if(id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var workoutToUpdate = await _context.PersonalWorkouts
+                .Include(i => i.ExerciseAssignments)
+                .FirstOrDefaultAsync(m => m.PersWorkoutId == id);
+
+            if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroup))
             {
                 try
                 {
-                    _context.Update(personalWorkout);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException /* ex */)
                 {
-                    if (!PersonalWorkoutExists(personalWorkout.PersWorkoutId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(personalWorkout);
+            UpdateWorkoutExercises(selectedExercises, workoutToUpdate);
+            PopulateAssignedExerciseData(workoutToUpdate);
+            return View(workoutToUpdate);
         }
 
         // GET: PersonalWorkouts/Delete/5
