@@ -1,4 +1,5 @@
-﻿@model PaginatedList<VirtualTrainer.Equipment>
+﻿@using VirtualTrainer.Authorization
+@model PaginatedList<VirtualTrainer.Equipment>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +7,14 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    if(User.IsInRole(Constants.ContactAdministratorsRole))
+    {
+        <p>
+        <a asp-action="Create">Create New</a>
+        </p>
+    }
+}
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
@@ -35,8 +41,35 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+    @{
+        if(!User.IsInRole(Constants.ContactAdministratorsRole))
+        {
+            <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Idequipment">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+        }
+}
+    
+@{
+    if(User.IsInRole(Constants.ContactAdministratorsRole))
+    {
+        <tbody>
+        @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.EquipmentName)
@@ -55,6 +88,8 @@
         </tr>
 }
     </tbody>
+    }
+}
 </table>
 
 @{

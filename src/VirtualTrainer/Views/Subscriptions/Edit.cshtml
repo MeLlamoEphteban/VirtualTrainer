@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Idsubscription" />
             <div class="form-group">
-                <label asp-for="SubName" class="control-label"></label>
+                <label asp-for="SubName" class="control-label">Subscription Name</label>
                 <input asp-for="SubName" class="form-control" />
                 <span asp-validation-for="SubName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AllowedTimeInterval" class="control-label"></label>
+                <label asp-for="AllowedTimeInterval" class="control-label">Allowed Time Interval</label>
                 <input asp-for="AllowedTimeInterval" class="form-control" />
                 <span asp-validation-for="AllowedTimeInterval" class="text-danger"></span>
             </div>

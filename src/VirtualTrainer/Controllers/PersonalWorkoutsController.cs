@@ -56,7 +56,6 @@ namespace VirtualTrainer.Controllers
         //GET create
         public IActionResult Create()
         {
-            //PopulateExercisesList();
             var persWorkout = new PersonalWorkout();
             persWorkout.ExerciseAssignments = new List<ExerciseAssignment>();
             PopulateAssignedExerciseData(persWorkout);
@@ -92,47 +91,6 @@ namespace VirtualTrainer.Controllers
             PopulateAssignedExerciseData(personalWorkout);
             return View(personalWorkout);
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("WorkoutName, BodyGroup, Exercises")] UserAddsProgram userAddsProgram, [FromServices] UserManager<IdentityUser> _userManager)
-        //{
-        //    PopulateExercisesList();
-        //    if (ModelState.IsValid)
-        //    {
-        //        var userId = _userManager.GetUserId(HttpContext.User);
-        //        var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
-        //        if(userStart == null)
-        //        {
-        //            return NotFound("No user found with id");
-        //        }
-
-        //        var userWorkout = new PersonalWorkout();
-        //        userWorkout.UserId = userStart[0].Iduser;
-        //        userWorkout.WorkoutName = userAddsProgram.WorkoutName;
-        //        userWorkout.BodyGroup = userAddsProgram.BodyGroup;
-        //        userWorkout.Exercises = userAddsProgram.Exercises.ToString();
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(userAddsProgram);
-        //}
-
-        //private void PopulateExercisesList()
-        //{
-        //    var allExercises = _context.Exercises;
-        //    var viewModel = new List<ExbodyList>();
-        //    foreach (var exercise in allExercises)
-        //    {
-        //        viewModel.Add(new ExbodyList
-        //        {
-        //            ExerciseID = exercise.Idexercise,
-        //            ExerciseName = exercise.ExerciseName
-        //        });
-        //    }
-        //    ViewData["Exercises"] = viewModel;
-        //}
 
         private void PopulateAssignedExerciseData(PersonalWorkout persWorkout)
         {
@@ -192,39 +150,6 @@ namespace VirtualTrainer.Controllers
             return View(personalWorkout);
         }
 
-        // POST: PersonalWorkouts/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup,Exercises")] PersonalWorkout personalWorkout)
-        //{
-        //    if (id != personalWorkout.PersWorkoutId)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(personalWorkout);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!PersonalWorkoutExists(personalWorkout.PersWorkoutId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(personalWorkout);
-        //}
-        //in testing
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, string[] selectedExercises)
@@ -235,7 +160,6 @@ namespace VirtualTrainer.Controllers
             }
 
             var workoutToUpdate = await _context.PersonalWorkouts
-                //.Include(i => i.ExerciseAssignments)
                 .FirstOrDefaultAsync(m => m.PersWorkoutId == id);
 
             DeleteExAssignments(workoutToUpdate);
@@ -263,7 +187,6 @@ namespace VirtualTrainer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //UpdateWorkoutExercises(selectedExercises, workoutToUpdate);
             PopulateAssignedExerciseData(workoutToUpdate);
             return View(workoutToUpdate);
         }

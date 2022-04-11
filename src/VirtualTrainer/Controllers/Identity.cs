@@ -14,12 +14,6 @@ namespace VirtualTrainer.Controllers
         [HttpGet]
         public async Task<IActionResult> Login([FromServices]SignInManager<IdentityUser> signInManager, [FromServices]ILogger<LoginModel> logger, string returnUrl = null)
         {
-            //return Content("Asta e pagina de login");
-            //if (!string.IsNullOrEmpty(ErrorMessage))
-            //{
-            //    ModelState.AddModelError(string.Empty, ErrorMessage);
-            //}
-
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
@@ -68,7 +62,6 @@ namespace VirtualTrainer.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(loginModel);
         }
 
