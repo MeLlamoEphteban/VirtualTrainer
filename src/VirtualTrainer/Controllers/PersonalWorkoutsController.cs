@@ -60,7 +60,7 @@ namespace VirtualTrainer.Controllers
             var persWorkout = new PersonalWorkout();
             persWorkout.ExerciseAssignments = new List<ExerciseAssignment>();
             PopulateAssignedExerciseData(persWorkout);
-            return View();
+            return View(persWorkout);
         }
 
         [HttpPost]
@@ -136,8 +136,8 @@ namespace VirtualTrainer.Controllers
 
         private void PopulateAssignedExerciseData(PersonalWorkout persWorkout)
         {
-            var allExercises = _context.Exercises;
-            var workoutExercises = new HashSet<int>(_context.ExerciseAssignments.Select(e => e.ExerciseId)); //(PersonalWorkout.Exercises.Select(c => c.ExerciseID))
+            var allExercises = _context.Exercises.ToArray();
+            var workoutExercises = new HashSet<int>(persWorkout.ExerciseAssignments.Select(it => it.ExerciseId).ToArray());
             var viewModel = new List<UserAddsProgram>();
 
             foreach (var exercise in allExercises)
@@ -162,26 +162,17 @@ namespace VirtualTrainer.Controllers
             }
 
             var selectedExercisesHS = new HashSet<string>(selectedExercises);
-            var workoutExercises = new HashSet<int>(workoutToUpdate.ExerciseAssignments.Select(c => c.ExerciseId));
+            var workoutExercises = new HashSet<int>(workoutToUpdate.ExerciseAssignments.Select(c => c.ExerciseId).ToArray());
+        }
 
-            foreach (var exercise in _context.Exercises)
+        private void DeleteExAssignments (PersonalWorkout workoutToUpdate)
+        {
+            var exercises = _context.ExerciseAssignments.Where(it => it.PersonalWorkoutId == workoutToUpdate.PersWorkoutId).ToArray();
+            foreach (var exercise in exercises)
             {
-                if (selectedExercisesHS.Contains(exercise.Idexercise.ToString()))
-                {
-                    if (!workoutExercises.Contains(exercise.Idexercise))
-                    {
-                        workoutToUpdate.ExerciseAssignments.Add(new ExerciseAssignment { PersonalWorkoutId = workoutToUpdate.PersWorkoutId, ExerciseId = exercise.Idexercise });
-                    }
-                }
-                else
-                {
-                    if(workoutExercises.Contains(exercise.Idexercise))
-                    {
-                        ExerciseAssignment exercisteToRemove = workoutToUpdate.ExerciseAssignments.FirstOrDefault(i => i.ExerciseId == exercise.Idexercise);
-                        _context.Remove(exercisteToRemove);
-                    }
-                }
+                _context.ExerciseAssignments.Remove(exercise);
             }
+            _context.SaveChanges();
         }
 
         // GET: PersonalWorkouts/Edit/5
@@ -192,7 +183,7 @@ namespace VirtualTrainer.Controllers
                 return NotFound();
             }
 
-            var personalWorkout = await _context.PersonalWorkouts.FindAsync(id);
+            var personalWorkout = await _context.PersonalWorkouts.Include(it => it.ExerciseAssignments).Where(it => it.PersWorkoutId == id).FirstOrDefaultAsync();
             if (personalWorkout == null)
             {
                 return NotFound();
@@ -244,13 +235,23 @@ namespace VirtualTrainer.Controllers
             }
 
             var workoutToUpdate = await _context.PersonalWorkouts
-                .Include(i => i.ExerciseAssignments)
+                //.Include(i => i.ExerciseAssignments)
                 .FirstOrDefaultAsync(m => m.PersWorkoutId == id);
+
+            DeleteExAssignments(workoutToUpdate);
 
             if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroup))
             {
                 try
                 {
+                    foreach(var item in selectedExercises)
+                    {
+                        var idExercise = int.Parse(item);
+                        var exAssignment = new ExerciseAssignment();
+                        exAssignment.ExerciseId = idExercise;
+                        exAssignment.PersonalWorkoutId = workoutToUpdate.PersWorkoutId;
+                        _context.ExerciseAssignments.Add(exAssignment);
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateException /* ex */)
@@ -262,7 +263,7 @@ namespace VirtualTrainer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            UpdateWorkoutExercises(selectedExercises, workoutToUpdate);
+            //UpdateWorkoutExercises(selectedExercises, workoutToUpdate);
             PopulateAssignedExerciseData(workoutToUpdate);
             return View(workoutToUpdate);
         }

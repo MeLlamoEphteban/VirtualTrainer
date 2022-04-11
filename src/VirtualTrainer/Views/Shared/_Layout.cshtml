@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using VirtualTrainer.Authorization
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,9 +25,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">Statistics</a>
                         </li>
-                        <li class="nav-item">
+                        @{
+                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            {
+                                <text><li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
-                        </li>
+                        </li></text>
+                            }
+                        }
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Subscriptions" asp-action="Index">Subscriptions</a>
                         </li>
@@ -39,9 +46,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Guides" asp-action="Index">Guides</a>
                         </li>
-                        <li class="nav-item">
+                        @{
+                            if(!User.IsInRole(Constants.ContactAdministratorsRole))
+                            {
+                                <text><li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="PersonalWorkouts" asp-action="Index">My Workouts</a>
-                        </li>
+                        </li></text>
+                            }
+                        }
+                        
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
