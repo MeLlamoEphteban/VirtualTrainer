@@ -43,6 +43,7 @@ namespace VirtualTrainer.Controllers
         {
             return View();
         }
+
         public async Task<ActionResult> UserSubStats()
         {
             IQueryable<GymGroup> data =
@@ -54,6 +55,18 @@ namespace VirtualTrainer.Controllers
                     SubscriptionDate = dateGroup.Key,
                     UserCount = dateGroup.Count()
                 };
+            return View(await data.AsNoTracking().ToListAsync());
+        }
+
+        public async Task<ActionResult> NrUserOnSub()
+        {
+            IQueryable<NrUserOnSub> data = from user in _context.Users
+                                           group user by user.UserSubscription.IdsubscriptionNavigation.SubName into nameGroup
+                                           select new NrUserOnSub()
+                                           {
+                                               subName = nameGroup.Key,
+                                               UserCount = nameGroup.Count()
+                                           };
             return View(await data.AsNoTracking().ToListAsync());
         }
     }
