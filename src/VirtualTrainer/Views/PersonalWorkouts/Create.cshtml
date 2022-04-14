@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>PersonalWorkout</h4>
+<h4>Personal Workout</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,9 +18,22 @@
                 <span asp-validation-for="WorkoutName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BodyGroup" class="control-label"></label>
-                <input asp-for="BodyGroup" class="form-control" />
-                <span asp-validation-for="BodyGroup" class="text-danger"></span>
+                <label asp-for="WorkProgramId" class="control-label">Program Name</label>
+                <br />
+                @Html.DropDownListFor(it => it.WorkProgramId, (SelectListItem[])ViewBag.WorkPrograms)
+                <span asp-validation-for="WorkProgramId" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProgramTypeId" class="control-label">Program Type Name</label>
+                <br />
+                @Html.DropDownListFor(it => it.ProgramTypeId, (SelectListItem[])ViewBag.ProgramTypes)
+                <span asp-validation-for="ProgramTypeId" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="BodyGroupId" class="control-label">Body Group Name</label>
+                <br />
+                @Html.DropDownListFor(it => it.BodyGroupId, (SelectListItem[])ViewBag.BodyGroups)
+                <span asp-validation-for="BodyGroupId" class="text-danger" />
             </div>
             Exercises:
             <div class="form-group">

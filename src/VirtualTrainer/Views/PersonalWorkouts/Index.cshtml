@@ -16,7 +16,13 @@
                 Workout Name
             </th>
             <th>
-               Body Group
+               Work Program
+            </th>
+            <th>
+               Program Type
+            </th>
+            <th>
+                Body Group
             </th>
             <th></th>
         </tr>
@@ -28,7 +34,13 @@
                 @Html.DisplayFor(modelItem => item.WorkoutName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BodyGroup)
+                @Html.DisplayFor(modelItem => item.Wpname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ptname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bgname)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PersWorkoutId">Edit</a> |

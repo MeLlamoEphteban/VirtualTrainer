@@ -226,7 +226,6 @@ namespace VirtualTrainer
                 entity.HasOne(d => d.PersonalWorkout)
                     .WithMany(p => p.ExerciseAssignments)
                     .HasForeignKey(d => d.PersonalWorkoutId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ExerciseAssignment_PersonalWorkouts");
             });
 
@@ -261,20 +260,36 @@ namespace VirtualTrainer
 
                 entity.Property(e => e.PersWorkoutId).HasColumnName("PersWorkoutID");
 
-                entity.Property(e => e.BodyGroup)
+                entity.Property(e => e.Bgname)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(150)
+                    .HasColumnName("BGname");
+
+                entity.Property(e => e.BodyGroupId).HasColumnName("BodyGroupID");
+
+                entity.Property(e => e.ProgramTypeId).HasColumnName("ProgramTypeID");
+
+                entity.Property(e => e.Ptname)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .HasColumnName("PTname");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.WorkProgramId).HasColumnName("WorkProgramID");
 
                 entity.Property(e => e.WorkoutName)
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Wpname)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .HasColumnName("WPname");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.PersonalWorkouts)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PersonalWorkouts_Users");
             });
 
@@ -421,7 +436,6 @@ namespace VirtualTrainer
                 entity.HasOne(d => d.IduserNavigation)
                     .WithOne(p => p.UserSubscription)
                     .HasForeignKey<UserSubscription>(d => d.Iduser)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_Subscription_Users");
             });
 

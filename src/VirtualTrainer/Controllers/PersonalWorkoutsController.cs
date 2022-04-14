@@ -56,6 +56,7 @@ namespace VirtualTrainer.Controllers
         //GET create
         public IActionResult Create()
         {
+            PopulateDropDownLists();
             var persWorkout = new PersonalWorkout();
             persWorkout.ExerciseAssignments = new List<ExerciseAssignment>();
             PopulateAssignedExerciseData(persWorkout);
@@ -64,7 +65,7 @@ namespace VirtualTrainer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroup")] PersonalWorkout personalWorkout, [FromServices] UserManager<IdentityUser> _userManager, string[] selectedExercises)
+        public async Task<IActionResult> Create([Bind("PersWorkoutId,UserId,WorkoutName,BodyGroupId,WorkProgramId,ProgramTypeId,Bgname,Ptname,Wpname")] PersonalWorkout personalWorkout, [FromServices] UserManager<IdentityUser> _userManager, string[] selectedExercises)
         {
             if(selectedExercises != null)
             {
@@ -80,6 +81,18 @@ namespace VirtualTrainer.Controllers
             var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
             personalWorkout.UserId = userStart[0].Iduser;
 
+            var bgID = personalWorkout.BodyGroupId;
+            var bgName = await _context.BodyGroups.Where(i => i.IdbodyGroup == bgID).FirstOrDefaultAsync();
+            personalWorkout.Bgname = bgName.GroupName;
+
+            var wpID = personalWorkout.WorkProgramId;
+            var wpName = await _context.WorkPrograms.Where(i => i.IdworkProgram == wpID).FirstOrDefaultAsync();
+            personalWorkout.Wpname = wpName.ProgramName;
+
+            var ptID = personalWorkout.ProgramTypeId;
+            var ptName = await _context.ProgramTypes.Where(i => i.IdprogramType == ptID).FirstOrDefaultAsync();
+            personalWorkout.Ptname = ptName.ProgramTypeName;
+
             //PopulateExercisesList();
             if (ModelState.IsValid)
             {
@@ -87,9 +100,19 @@ namespace VirtualTrainer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            PopulateDropDownLists();
             PopulateAssignedExerciseData(personalWorkout);
             return View(personalWorkout);
+        }
+
+        private void PopulateDropDownLists()
+        {
+            var wPrograms = _context.WorkPrograms.ToArray().Select(it => new SelectListItem(it.ProgramName, it.IdworkProgram.ToString()));
+            ViewBag.WorkPrograms = wPrograms.ToArray();
+            var tPrograms = _context.ProgramTypes.ToArray().Select(it => new SelectListItem(it.ProgramTypeName, it.IdprogramType.ToString()));
+            ViewBag.ProgramTypes = tPrograms.ToArray();
+            var bGroup = _context.BodyGroups.ToArray().Select(it => new SelectListItem(it.GroupName, it.IdbodyGroup.ToString()));
+            ViewBag.BodyGroups = bGroup.ToArray();
         }
 
         private void PopulateAssignedExerciseData(PersonalWorkout persWorkout)
@@ -110,7 +133,6 @@ namespace VirtualTrainer.Controllers
             ViewData["Exercises"] = viewModel;
         }
 
-        //in testing
         private void UpdateWorkoutExercises(string[] selectedExercises, PersonalWorkout workoutToUpdate)
         {
             if (selectedExercises == null)
@@ -146,6 +168,7 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound();
             }
+            PopulateDropDownLists();
             PopulateAssignedExerciseData(personalWorkout);
             return View(personalWorkout);
         }
@@ -164,7 +187,7 @@ namespace VirtualTrainer.Controllers
 
             DeleteExAssignments(workoutToUpdate);
 
-            if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroup))
+            if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroupId, i => i.WorkProgramId, i => i.ProgramTypeId, i => i.Wpname, i => i.Ptname, i => i.Bgname))
             {
                 try
                 {
@@ -187,6 +210,7 @@ namespace VirtualTrainer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropDownLists();
             PopulateAssignedExerciseData(workoutToUpdate);
             return View(workoutToUpdate);
         }
@@ -215,6 +239,7 @@ namespace VirtualTrainer.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var personalWorkout = await _context.PersonalWorkouts.FindAsync(id);
+
             _context.PersonalWorkouts.Remove(personalWorkout);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
