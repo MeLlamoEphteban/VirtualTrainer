@@ -187,11 +187,11 @@ namespace VirtualTrainer.Controllers
 
             DeleteExAssignments(workoutToUpdate);
 
-            if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroupId, i => i.WorkProgramId, i => i.ProgramTypeId, i => i.Wpname, i => i.Ptname, i => i.Bgname))
+            if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroupId, i => i.WorkProgramId, i => i.ProgramTypeId, i => i.Bgname, i => i.Wpname, i => i.Ptname))
             {
                 try
                 {
-                    foreach(var item in selectedExercises)
+                    foreach (var item in selectedExercises)
                     {
                         var idExercise = int.Parse(item);
                         var exAssignment = new ExerciseAssignment();
@@ -199,6 +199,18 @@ namespace VirtualTrainer.Controllers
                         exAssignment.PersonalWorkoutId = workoutToUpdate.PersWorkoutId;
                         _context.ExerciseAssignments.Add(exAssignment);
                     }
+                    var bgID = workoutToUpdate.BodyGroupId;
+                    var bgName = await _context.BodyGroups.Where(i => i.IdbodyGroup == bgID).FirstOrDefaultAsync();
+                    workoutToUpdate.Bgname = bgName.GroupName;
+
+                    var wpID = workoutToUpdate.WorkProgramId;
+                    var wpName = await _context.WorkPrograms.Where(i => i.IdworkProgram == wpID).FirstOrDefaultAsync();
+                    workoutToUpdate.Wpname = wpName.ProgramName;
+
+                    var ptID = workoutToUpdate.ProgramTypeId;
+                    var ptName = await _context.ProgramTypes.Where(i => i.IdprogramType == ptID).FirstOrDefaultAsync();
+                    workoutToUpdate.Ptname = ptName.ProgramTypeName;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateException /* ex */)
