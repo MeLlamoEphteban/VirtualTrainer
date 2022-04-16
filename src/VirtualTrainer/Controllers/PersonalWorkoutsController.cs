@@ -97,6 +97,13 @@ namespace VirtualTrainer.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(personalWorkout);
+
+                //var programUser = new ProgramUser();
+                //programUser.IdworkProgram = wpID;
+                //programUser.Iduser = userStart[0].Iduser;
+                //programUser.IdpersWorkout = personalWorkout.PersWorkoutId;
+                //_context.Add(programUser);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -187,6 +194,8 @@ namespace VirtualTrainer.Controllers
 
             DeleteExAssignments(workoutToUpdate);
 
+            //var programUser = await _context.ProgramUsers.Where(u => u.IdpersWorkout == id).FirstOrDefaultAsync();
+
             if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroupId, i => i.WorkProgramId, i => i.ProgramTypeId, i => i.Bgname, i => i.Wpname, i => i.Ptname))
             {
                 try
@@ -210,6 +219,8 @@ namespace VirtualTrainer.Controllers
                     var ptID = workoutToUpdate.ProgramTypeId;
                     var ptName = await _context.ProgramTypes.Where(i => i.IdprogramType == ptID).FirstOrDefaultAsync();
                     workoutToUpdate.Ptname = ptName.ProgramTypeName;
+
+                    //programUser.IdworkProgram = wpID;
 
                     await _context.SaveChangesAsync();
                 }

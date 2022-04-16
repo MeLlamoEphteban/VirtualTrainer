@@ -316,6 +316,8 @@ namespace VirtualTrainer
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.IdpersWorkout).HasColumnName("IDPersWorkout");
+
                 entity.Property(e => e.Iduser).HasColumnName("IDUser");
 
                 entity.Property(e => e.IdworkProgram).HasColumnName("IDWorkProgram");
