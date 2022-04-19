@@ -97,12 +97,13 @@ namespace VirtualTrainer.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(personalWorkout);
+                await _context.SaveChangesAsync();
 
-                //var programUser = new ProgramUser();
-                //programUser.IdworkProgram = wpID;
-                //programUser.Iduser = userStart[0].Iduser;
-                //programUser.IdpersWorkout = personalWorkout.PersWorkoutId;
-                //_context.Add(programUser);
+                var p1 = new ProgramUser();
+                p1.IdworkProgram = wpID;
+                p1.Iduser = userStart[0].Iduser;
+                p1.IdpersWorkout = personalWorkout.PersWorkoutId;
+                _context.ProgramUsers.Add(p1);
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -161,6 +162,15 @@ namespace VirtualTrainer.Controllers
             }
             _context.SaveChanges();
         }
+        private void DeleteProgramUsers(PersonalWorkout workoutToUpdate)
+        {
+            var ids = _context.ProgramUsers.Where(it => it.IdpersWorkout == workoutToUpdate.PersWorkoutId).ToArray();
+            foreach(var ProgramUsers in ids)
+            {
+                _context.ProgramUsers.Remove(ProgramUsers);
+            }
+            _context.SaveChanges();
+        }
 
         // GET: PersonalWorkouts/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -193,8 +203,7 @@ namespace VirtualTrainer.Controllers
                 .FirstOrDefaultAsync(m => m.PersWorkoutId == id);
 
             DeleteExAssignments(workoutToUpdate);
-
-            //var programUser = await _context.ProgramUsers.Where(u => u.IdpersWorkout == id).FirstOrDefaultAsync();
+            DeleteProgramUsers(workoutToUpdate);
 
             if(await TryUpdateModelAsync<PersonalWorkout>(workoutToUpdate, "", i => i.WorkoutName, i => i.BodyGroupId, i => i.WorkProgramId, i => i.ProgramTypeId, i => i.Bgname, i => i.Wpname, i => i.Ptname))
             {
@@ -220,7 +229,11 @@ namespace VirtualTrainer.Controllers
                     var ptName = await _context.ProgramTypes.Where(i => i.IdprogramType == ptID).FirstOrDefaultAsync();
                     workoutToUpdate.Ptname = ptName.ProgramTypeName;
 
-                    //programUser.IdworkProgram = wpID;
+                    var p1 = new ProgramUser();
+                    p1.IdworkProgram = wpID;
+                    p1.Iduser = workoutToUpdate.UserId;
+                    p1.IdpersWorkout = workoutToUpdate.PersWorkoutId;
+                    _context.ProgramUsers.Add(p1);
 
                     await _context.SaveChangesAsync();
                 }
@@ -248,6 +261,7 @@ namespace VirtualTrainer.Controllers
 
             var personalWorkout = await _context.PersonalWorkouts
                 .Include(p => p.User)
+                .ThenInclude(p => p.ProgramUsers)
                 .FirstOrDefaultAsync(m => m.PersWorkoutId == id);
             if (personalWorkout == null)
             {
@@ -262,7 +276,11 @@ namespace VirtualTrainer.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var personalWorkout = await _context.PersonalWorkouts.FindAsync(id);
-
+            var pUsers = _context.ProgramUsers.Where(it => it.IdpersWorkout == personalWorkout.PersWorkoutId).ToArray();
+            foreach (var ProgramUsers in pUsers)
+            {
+                _context.ProgramUsers.Remove(ProgramUsers);
+            }
             _context.PersonalWorkouts.Remove(personalWorkout);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

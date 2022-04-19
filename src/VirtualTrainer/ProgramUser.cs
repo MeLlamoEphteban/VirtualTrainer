@@ -12,6 +12,7 @@ namespace VirtualTrainer
         public int Iduser { get; set; }
         public int IdpersWorkout { get; set; }
 
+        public virtual PersonalWorkout IdpersWorkoutNavigation { get; set; }
         public virtual User IduserNavigation { get; set; }
         public virtual WorkProgram IdworkProgramNavigation { get; set; }
     }

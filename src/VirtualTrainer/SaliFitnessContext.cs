@@ -322,6 +322,12 @@ namespace VirtualTrainer
 
                 entity.Property(e => e.IdworkProgram).HasColumnName("IDWorkProgram");
 
+                entity.HasOne(d => d.IdpersWorkoutNavigation)
+                    .WithMany(p => p.ProgramUsers)
+                    .HasForeignKey(d => d.IdpersWorkout)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Program_Users_PersonalWorkouts");
+
                 entity.HasOne(d => d.IduserNavigation)
                     .WithMany(p => p.ProgramUsers)
                     .HasForeignKey(d => d.Iduser)

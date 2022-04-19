@@ -10,6 +10,7 @@ namespace VirtualTrainer
         public PersonalWorkout()
         {
             ExerciseAssignments = new HashSet<ExerciseAssignment>();
+            ProgramUsers = new HashSet<ProgramUser>();
         }
 
         public int PersWorkoutId { get; set; }
@@ -24,5 +25,6 @@ namespace VirtualTrainer
 
         public virtual User User { get; set; }
         public virtual ICollection<ExerciseAssignment> ExerciseAssignments { get; set; }
+        public virtual ICollection<ProgramUser> ProgramUsers { get; set; }
     }
 }
