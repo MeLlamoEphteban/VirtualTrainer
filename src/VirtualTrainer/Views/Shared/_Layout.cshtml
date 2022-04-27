@@ -37,6 +37,16 @@
                             {
                                 <text>
                                 <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Invoices" asp-action="Index">Invoices</a>
+                                </li>
+                                </text>
+                            }
+                        }
+                        @{
+                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            {
+                                <text>
+                                <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                                 </li>
                                 </text>

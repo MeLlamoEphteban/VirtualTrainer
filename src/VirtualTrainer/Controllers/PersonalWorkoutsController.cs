@@ -76,7 +76,7 @@ namespace VirtualTrainer.Controllers
                     personalWorkout.ExerciseAssignments.Add(exerciseToAdd);
                 }
             }
-
+            
             var userId = _userManager.GetUserId(HttpContext.User);
             var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
             personalWorkout.UserId = userStart[0].Iduser;
@@ -93,20 +93,29 @@ namespace VirtualTrainer.Controllers
             var ptName = await _context.ProgramTypes.Where(i => i.IdprogramType == ptID).FirstOrDefaultAsync();
             personalWorkout.Ptname = ptName.ProgramTypeName;
 
-            //PopulateExercisesList();
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(personalWorkout);
-                await _context.SaveChangesAsync();
+                if (ModelState.IsValid)
+                {
+                    _context.Add(personalWorkout);
+                    await _context.SaveChangesAsync();
 
-                var p1 = new ProgramUser();
-                p1.IdworkProgram = wpID;
-                p1.Iduser = userStart[0].Iduser;
-                p1.IdpersWorkout = personalWorkout.PersWorkoutId;
-                _context.ProgramUsers.Add(p1);
+                    var p1 = new ProgramUser();
+                    p1.IdworkProgram = wpID;
+                    p1.Iduser = userStart[0].Iduser;
+                    p1.IdpersWorkout = personalWorkout.PersWorkoutId;
+                    _context.ProgramUsers.Add(p1);
 
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
             PopulateDropDownLists();
             PopulateAssignedExerciseData(personalWorkout);

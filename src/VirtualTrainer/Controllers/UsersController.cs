@@ -29,8 +29,8 @@ namespace VirtualTrainer.Controllers
                 return Unauthorized();
             }
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["SurnameSortParm"] = sortOrder == "Surname" ? "Surname_desc" : "Surname";
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["SurnameSortParam"] = sortOrder == "Surname" ? "Surname_desc" : "Surname";
 
             if(searchString != null)
             {
@@ -113,7 +113,7 @@ namespace VirtualTrainer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate, Password")] UserViewModelAdd userView, [FromServices] IUserStore<IdentityUser> _userStore, [FromServices] UserManager<IdentityUser> _userManager)
+        public async Task<IActionResult> Create([Bind("Email,Name,Surname,Address,Phone,Cnp,Idsubscription,startDate,Password")] UserViewModelAdd userView, [FromServices] IUserStore<IdentityUser> _userStore, [FromServices] UserManager<IdentityUser> _userManager)
         {
             try
             {
@@ -143,6 +143,17 @@ namespace VirtualTrainer.Controllers
                     userNew.UserSubscription.EndDate = userNew.UserSubscription.StartDate.AddMonths(1);
                     userNew.UserSubscription.Idsubscription = userView.Idsubscription;
 
+                    await _context.SaveChangesAsync();
+
+                    var newInv = new Invoice();
+                    var userS = await _context.Users.Where(u => u.UserAspNet == userId).FirstOrDefaultAsync();
+                    newInv.IdUser = userS.Iduser;
+                    newInv.UserName = userNew.Name;
+                    newInv.IdSubscription = userView.Idsubscription;
+                    var subscriptionId = await _context.Subscriptions.Where(it => it.Idsubscription == userView.Idsubscription).FirstOrDefaultAsync();
+                    newInv.SubName = subscriptionId.SubName;
+                    newInv.IssuedDate = DateTime.Now;
+                    _context.Add(newInv);
 
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -196,6 +207,17 @@ namespace VirtualTrainer.Controllers
             newSub.EndDate = newSub.StartDate.AddMonths(1);
             newSub.Idsubscription = renewSub.Idsubscription;
             _context.Add(newSub);
+
+            //use the above data to create a new invoice
+            var newInv = new Invoice();
+            newInv.IdUser = (int)id;
+            var userId = await _context.Users.Where(it => it.Iduser == id).FirstOrDefaultAsync();
+            newInv.UserName = userId.Name;
+            newInv.IdSubscription = renewSub.Idsubscription;
+            var subscriptionId = await _context.Subscriptions.Where(it => it.Idsubscription == renewSub.Idsubscription).FirstOrDefaultAsync();
+            newInv.SubName = subscriptionId.SubName;
+            newInv.IssuedDate = DateTime.Now;
+            _context.Add(newInv);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -30,6 +30,7 @@ namespace VirtualTrainer
         public virtual DbSet<Exercise> Exercises { get; set; }
         public virtual DbSet<ExerciseAssignment> ExerciseAssignments { get; set; }
         public virtual DbSet<GroupEquipment> GroupEquipments { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<PersonalWorkout> PersonalWorkouts { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
         public virtual DbSet<ProgramUser> ProgramUsers { get; set; }
@@ -254,6 +255,33 @@ namespace VirtualTrainer
                     .HasConstraintName("FK_Group_Equipment_Equipment");
             });
 
+            modelBuilder.Entity<Invoice>(entity =>
+            {
+                entity.HasKey(e => e.IdInvoice);
+
+                entity.Property(e => e.IssuedDate).HasColumnType("date");
+
+                entity.Property(e => e.SubName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.IdSubscriptionNavigation)
+                    .WithMany(p => p.Invoices)
+                    .HasForeignKey(d => d.IdSubscription)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoices_Subscriptions");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Invoices)
+                    .HasForeignKey(d => d.IdUser)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoices_Users");
+            });
+
             modelBuilder.Entity<PersonalWorkout>(entity =>
             {
                 entity.HasKey(e => e.PersWorkoutId);
@@ -401,6 +429,10 @@ namespace VirtualTrainer
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.Surname)
                     .IsRequired()

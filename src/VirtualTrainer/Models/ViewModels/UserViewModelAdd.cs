@@ -10,7 +10,7 @@ namespace VirtualTrainer.Models.ViewModels
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Cnp { get; set; }
 
         [Display(Name = "Start Date")]

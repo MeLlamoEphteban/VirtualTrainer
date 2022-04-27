@@ -58,7 +58,7 @@ namespace VirtualTrainer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubName,AllowedTimeInterval")] Subscription subscription)
+        public async Task<IActionResult> Create([Bind("SubName,AllowedTimeInterval,Price")] Subscription subscription)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace VirtualTrainer.Controllers
             }
             var subscriptionToUpdate = await _context.Subscriptions.FirstOrDefaultAsync(s => s.Idsubscription == id);
             if (await TryUpdateModelAsync<Subscription>(
-                subscriptionToUpdate, "", s => s.SubName, s => s.AllowedTimeInterval))
+                subscriptionToUpdate, "", s => s.SubName, s => s.AllowedTimeInterval, s => s.Price))
             {
                 try
                 {
