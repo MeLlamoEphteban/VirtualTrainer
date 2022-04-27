@@ -76,22 +76,19 @@
                         }
                         else
                         {
-                            <text>Abonament nevalid</text>
+                            <text>Subscription Expired</text>
+                            <a asp-action="Renew" asp-route-id="@item.Iduser">Renew sub</a>
                         }
                     </td>
                 }
                 else
                 {
-                    <td>Niciun abonament gasit</td>
+                    <td>No subscription found</td>
                 }
                 <td>
                     @if(item.UserSubscription?.StartDate != null)
                     {
                         <text>@item.UserSubscription.StartDate.ToString("yyyy MMM dd")</text>
-                    }
-                    else
-                    {
-                        <text>Fara abonament</text>
                     }
                 </td>
                 <td>

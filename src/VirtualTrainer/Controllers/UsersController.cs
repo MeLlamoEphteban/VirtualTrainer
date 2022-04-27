@@ -159,6 +159,48 @@ namespace VirtualTrainer.Controllers
             return View(userView);
         }
 
+        // GET
+        public async Task<IActionResult> Renew(int? id)
+        {
+            PopulateSubscriptionsDropDownList();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var x = new RenewSub();
+            var user = await _context.Users.Where(it => it.Iduser == id)
+                .Include(it => it.UserSubscription).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            x.Iduser = user.Iduser;
+
+            return View(x);
+        }
+
+        [HttpPost, ActionName("Renew")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Renew(int? id, RenewSub renewSub)
+        {
+            //delete old subscription entry
+            var oldSub = _context.UserSubscriptions.Where(it => it.Iduser == id).FirstOrDefault();
+
+            _context.UserSubscriptions.Remove(oldSub);
+            await _context.SaveChangesAsync();
+
+            //take the new subscription data from form and add the entry
+            var newSub = new UserSubscription();
+            newSub.Iduser = (int)id;
+            newSub.StartDate = renewSub.startDate;
+            newSub.EndDate = newSub.StartDate.AddMonths(1);
+            newSub.Idsubscription = renewSub.Idsubscription;
+            _context.Add(newSub);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private IUserEmailStore<IdentityUser> GetEmailStore(UserManager<IdentityUser>  _userManager, IUserStore<IdentityUser> _userStore)
         {
             if (!_userManager.SupportsUserEmail)

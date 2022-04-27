@@ -1,0 +1,31 @@
+﻿@model VirtualTrainer.Models.ViewModels.RenewSub
+
+@{
+    ViewData["Title"] = "Renew subscription";
+}
+
+<h1>Renew subscription</h1>
+
+<h4>Complete data below:</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Renew">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Idsubscription" class="control-label">Subscription name</label>
+                <br />
+                @Html.DropDownListFor(it => it.Idsubscription, (SelectListItem[])ViewBag.SubscriptionID)
+                <span asp-validation-for="Idsubscription" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="startDate" class="control-label">Start Date</label>
+                <input asp-for="startDate" class="form-control" />
+                <span asp-validation-for="startDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Renew" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
