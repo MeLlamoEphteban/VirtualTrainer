@@ -4,6 +4,17 @@
     ViewData["Title"] = "Change password";
 }
 
+<h1>User account settings</h1>
+
+@if(System.DateTime.Now > @Model.ExpirationDate)
+{
+    <p>Please renew you subscription in one of our gyms to continue using the fitness equipment.</p>
+}
+else
+{
+   <p>Your <strong>@Model.SubscriptionName</strong> subscription will expire on <strong>@Model.ExpirationDate</strong> .</p>
+}
+<br/>
 <h3>@ViewData["Title"]</h3>
 <div class="row">
     <div class="col-md-6">

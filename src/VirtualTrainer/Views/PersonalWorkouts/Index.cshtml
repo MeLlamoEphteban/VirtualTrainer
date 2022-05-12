@@ -4,13 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style='text-align:center; margin:2rem 0'>Personal Workouts</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create a new workout</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table__container">
+    <thead class='table__head'>
         <tr>
             <th>
                 Workout Name
@@ -29,7 +29,7 @@
     </thead>
     <tbody>
             @foreach (var item in Model.personalWorkouts) {
-        <tr>
+        <tr class='table__row'>
             <td>
                 @Html.DisplayFor(modelItem => item.WorkoutName)
             </td>
@@ -43,8 +43,8 @@
                 @Html.DisplayFor(modelItem => item.Bgname)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PersWorkoutId">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.PersWorkoutId">Delete</a>
+                <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.PersWorkoutId">Edit</a> |
+                <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.PersWorkoutId">Delete</a>
             </td>
         </tr>
 }

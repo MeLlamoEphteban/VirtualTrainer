@@ -4,13 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style='text-align:center; margin:2rem 0'>Subscriptions available for clients</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create a new subscription</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table__container">
+    <thead class='table__head'>
         <tr>
             <th>
                 Subscription Name
@@ -23,7 +23,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class='table__row'>
             <td>
                 @Html.DisplayFor(modelItem => item.SubName)
             </td>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.AllowedTimeInterval)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Idsubscription">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Idsubscription">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Idsubscription">Delete</a>
+                <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Idsubscription">Edit</a> |
+                <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idsubscription">Details</a> |
+                <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Idsubscription">Delete</a>
             </td>
         </tr>
 }

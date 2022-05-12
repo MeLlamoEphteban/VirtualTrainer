@@ -1,10 +1,10 @@
 ﻿@model VirtualTrainer.Account.LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = "Logout";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
+<header class='logout__container'>
+    <h1 class='logout__title'>@ViewData["Title"]</h1>
     @{
         if (User.Identity.IsAuthenticated)
         {
@@ -14,7 +14,7 @@
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <p class='logout__text'>You have successfully logged out of the application.</p>
         }
     }
 </header>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -64,7 +65,7 @@ namespace VirtualTrainer.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -87,7 +88,8 @@ namespace VirtualTrainer.Controllers
                 .ToArrayAsync();
             if (WorkProgramIDs.Length == 0)
             {
-                return NotFound($"The user {id} has no work programs!");
+                //return NotFound();($"The user {id} has no work programs!");
+                TempData["ErrorMessage"] = $"The user {user.Name} {user.Surname} has no personal workouts created yet!";
             }
             var IDWorkProgram = WorkProgramIDs.Select(it => it.IdworkProgram)
                 .ToArray();
@@ -342,7 +344,7 @@ namespace VirtualTrainer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateException ex )
+            catch (DbUpdateException /*ex*/ )
             {
                 //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });

@@ -4,33 +4,34 @@
     ViewData["Title"] = "Subscription users";
 }
 
-<h2>Statistics</h2>
-<h3>Number of users registered sorted by subscription name:</h3>
+<h2 style='text-align:center; margin:2rem 0'>Number of users registered sorted by subscription name:</h2>
 
-<table>
-    <tr>
-        <th width="300">
-            Subscription Name
-        </th>
-        <th>
-            Users
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table__container">
+    <thead class='table__head'>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.subName)
-            </td>
-            <td>
-                @item.UserCount
-            </td>
+            <th>
+                Subscription Name
+            </th>
+            <th>
+                Users
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class='table__row'>
+                <td>
+                    @Html.DisplayFor(modelItem => item.subName)
+                </td>
+                <td>
+                    @item.UserCount
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-<br />
 <div>
     <a asp-action="About">Back to List</a>
 </div>

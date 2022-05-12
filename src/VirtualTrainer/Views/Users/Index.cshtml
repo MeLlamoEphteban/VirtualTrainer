@@ -4,22 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style='text-align:center; margin:2rem 0'>Registered Users</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
+    <div class='table__search'>
         <p>
-            Find by name/surname: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
+            Find by name/surname: <input class="table__input" type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Jon"/>
+            <input class="table__btn" type="submit" value="Search" />
+            <br/>
+            <a style='color:black;' asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
-<table class="table">
-    <thead>
+<p style='text-align:center; margin-top:20px;'>
+<a style='color:black;' asp-action="Create">Insert a new user</a>
+</p>
+<table class="table__container">
+    <thead class='table__head'>
         <tr>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Email</a>
@@ -36,21 +37,22 @@
             <th>
                 CNP
             </th>
-            <th width="170">
+            <th>
                 Subscription Name
             </th>
-            <th width="130">
-                -> Start Date
+            <th>
+                Start Date
             </th>
-            <th width="150">
-                -> End Date
+            <th>
+                End Date
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class='table__row'>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
@@ -76,7 +78,7 @@
                         else
                         {
                             <text>Subscription Expired</text>
-                            <a asp-action="Renew" asp-route-id="@item.Iduser">Renew sub</a>
+                            <a style='color:#ccff00' asp-action="Renew" asp-route-id="@item.Iduser">Renew sub</a>
                         }
                     </td>
                 }
@@ -97,9 +99,9 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Iduser">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Iduser">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Iduser">Delete</a>
+                    <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Iduser">Edit</a> |
+                    <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Iduser">Details</a> |
+                    <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Iduser">Delete</a>
                 </td>
             </tr>
         }
@@ -110,7 +112,7 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-
+@*clasele pentru butoane sunt deja facute pentru toate views*@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"

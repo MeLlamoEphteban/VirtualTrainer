@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -23,6 +24,13 @@ namespace VirtualTrainer.Authorization.Manage
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        //userData
+        [Display(Name ="Expiration Date")]
+        public DateTime ExpirationDate { get; set; }
+
+        [Display(Name = "Subscription Name")]
+        public string SubscriptionName { get; set; }
 
         public class InputModel
         {

@@ -5,83 +5,67 @@
 	<link rel="stylesheet" href="~/css/invoice.css" />
 }
 
-<h1>Details</h1>
+<div class="invoice-box">
+	<table cellpadding="0" cellspacing="0">
+		<tr class="top">
+			<td colspan="2">
+				<table>
+					<<tr>
+						<td class="title">
+							Very Muscular Physique
+						</td>
+						<td>
+							<strong>Invoice #@Model.IdInvoice</strong><br />
+							Created: @Model.IssuedDate
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 
-<div class="col-md-12">   
- <div class="row">
-		
-        <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-            <div class="row">
-    			<div class="receipt-header">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 text-right">
-						<div class="receipt-right">
-							<h5>VMP GYM</h5>
-							<p>0731292803<i class="fa fa-phone"></i></p>
-							<p>VMPGYM@gmail.com <i class="fa fa-envelope-o"></i></p>
-							<p>Bucharest<i class="fa fa-location-arrow"></i></p>
-						</div>
-					</div>
-				</div>
-            </div>
-			
-			<div class="row">
-				<div class="receipt-header receipt-header-mid">
-					<div class="col-xs-8 col-sm-8 col-md-8 text-left">
-						<div class="receipt-right">
-							<h5>@Model.UserName</h5>
-							<p><b>Mobile :</b> @Model.IdUserNavigation.Phone</p>
-							<p><b>Email :</b> @Model.IdUserNavigation.Email</p>
-							<p><b>Address :</b> @Model.IdUserNavigation.Address</p>
-						</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4">
-						<div class="receipt-left">
-							<h3>INVOICE #@Model.IdInvoice</h3>
-						</div>
-					</div>
-				</div>
-            </div>
-			
-            <div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-md-9">@Model.SubName</td>
-                            <td class="col-md-3"><i class="fa fa-inr"></i>@Model.IdSubscriptionNavigation.Price</td>
-                        </tr>
-                        <tr>
-                            <td class="text-right"><h2><strong>Total: </strong></h2></td>
-                            <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i>@Model.IdSubscriptionNavigation.Price</strong></h2></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-			
-			<div class="row">
-				<div class="receipt-header receipt-header-mid receipt-footer">
-					<div class="col-xs-8 col-sm-8 col-md-8 text-left">
-						<div class="receipt-right">
-							<p><b>Date :</b> @Model.IssuedDate</p>
-						</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4">
-						<div class="receipt-left">
-							<h1>Stamp</h1>
-						</div>
-					</div>
-				</div>
-            </div>
-			
-        </div>    
-	</div>
+		<tr class="information">
+			<td colspan="2">
+				<table>
+					<tr>
+						<td>
+							0731292803<br />
+							vmpGym@gmail.com<br />
+							Bucharest
+						</td>
+						<td>
+							<strong>@Model.UserName @Model.IdUserNavigation.Surname</strong><br />
+							<strong>Mobile: </strong>@Model.IdUserNavigation.Phone<br />
+							<strong>Email: </strong>@Model.IdUserNavigation.Email<br />
+							<strong>Address: </strong>@Model.IdUserNavigation.Address
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="heading">
+			<td>Payment Method</td>
+			<td>Currency</td>
+		</tr>
+		<tr class="details">
+			<td>Cash</td>
+			<td>RON</td>
+		</tr>
+
+		<tr class="heading">
+			<td>Subscription</td>
+			<td>Price</td>
+		</tr>
+		<tr class="item">
+			<td>@Model.SubName</td>
+			<td>@Model.IdSubscriptionNavigation.Price</td>
+		</tr>
+
+		<tr class="total">
+			<td></td>
+			<td>Total: @Model.IdSubscriptionNavigation.Price</td>
+		</tr>
+	</table>
 </div>
 
 <div>

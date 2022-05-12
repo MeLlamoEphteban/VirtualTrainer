@@ -2,11 +2,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Workout Guides</h1>
-<br />
+<h1 class="stat__title">Workout Guides</h1>
 
-<text>Select any of the workouts below to see details:</text>
-<a class="nav-link text-dark" asp-area="" asp-controller="Guides" asp-action="PushPullLegsV1"> Push, Pull and Legs - Var 1 </a>
-<a class="nav-link text-dark" asp-area="" asp-controller="Guides" asp-action="PushPullLegsV2"> Push, Pull and Legs - Var 2 </a>
-<a class="nav-link text-dark" asp-area="" asp-controller="Guides" asp-action="OneDayGroup"> One Group per Day </a>
-<a class="nav-link text-dark" asp-area="" asp-controller="Guides" asp-action="CompoundGroup"> Compound Workout </a>
+<div class='stat__container' style='text-align:center; font-size:1.2rem;'> 
+<text style='font-size:1.5rem; margin-bottom:1.5rem;'>Select any of the workouts below to see details:</text>
+<a asp-area="" asp-controller="Guides" asp-action="PushPullLegsV1"> Push, Pull and Legs - Var 1 </a>
+<a asp-area="" asp-controller="Guides" asp-action="PushPullLegsV2"> Push, Pull and Legs - Var 2 </a>
+<a asp-area="" asp-controller="Guides" asp-action="OneDayGroup"> One Group per Day </a>
+<a asp-area="" asp-controller="Guides" asp-action="CompoundGroup"> Compound Workout </a>
+</div>

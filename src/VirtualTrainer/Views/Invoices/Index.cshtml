@@ -2,24 +2,27 @@
 
 @{
     ViewData["Title"] = "Index";
+    <link rel="stylesheet" href="~/css/invoice.css" />
 }
 
-<h1>Index</h1>
+<h1 style='text-align:center; margin:2rem 0'> All Issued Invoices</h1>
 
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
+    <div class='table__search'>    
         <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
+            Find by name: <input class="table__input" type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder='Client Name' />
+           
+            <input class="table__btn"  type="submit" value="Search"  /> 
+            <br/>
+            <a style='color:black;' asp-action="Index">Back to Full List</a>
         </p>
     </div>
 </form>
-<table class="table">
-    <thead>
+<table class="table__container">
+    <thead class='table__head'>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">User Name</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Username</a>
             </th>
             <th>
                 Subscription Name
@@ -32,18 +35,18 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class='table__row'>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.SubName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IssuedDate)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.IdInvoice">Details</a>
+                <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.IdInvoice">Details</a>
             </td>
         </tr>
 }
@@ -55,14 +58,14 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
+<a style='color:black;' asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
-<a asp-action="Index"
+<a style='color:black;' asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"

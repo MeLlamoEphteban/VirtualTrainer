@@ -1,0 +1,481 @@
+﻿*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial;
+    height:100vh;
+}
+
+a {
+    text-decoration: none;    
+}
+
+li{
+   list-style:none;
+}
+
+.nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1.5rem;
+    background-color:black;
+}
+
+.nav a {
+    color: white;
+    font-size:1.1rem
+}
+
+    .nav a:hover {
+        text-decoration: underline #ccff00;
+    }
+
+.links{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:1rem;
+    border-right:3px solid black;
+    z-index:1;
+}
+
+.phone-menu{
+    display:none;
+}
+
+.nav-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    z-index:1;
+}
+
+.nav-logout button, .nav-login button {
+    border: none;
+    width: 5rem;
+    height: 1.5rem;
+    background-color: #ccff00;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+@media(max-width:66.375em) {
+    .nav{
+        padding:1.5rem;
+        
+    }
+
+    .links {
+        position: absolute;
+        flex-direction: column;
+        left: 0;
+        background-color: #535755;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        justify-content: start;
+        padding-top: 13rem;
+        display: none; /*this*/
+        gap: 0;
+    }
+
+        .links a {
+            color: #ccff00;
+            font-size: 1.3rem;
+        }
+
+    .links li {
+        border-bottom: 1px solid #DDE991;
+        width: 20rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .links li:last-child{
+        border:none;
+    }
+
+    .nav-user {
+        position: absolute;
+        left: 4.5rem;
+        top: 5rem;
+        display:none; /*this*/
+    }
+
+    .nav-user a{
+        color:#ccff00;
+    }
+
+    .phone-menu{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding: 3rem;
+    margin-top:10rem;
+}
+
+.title-login-page{
+    padding:2rem
+}
+
+.login-page h2{
+    padding-left:2rem;
+}
+
+.email-login, .pass-login{
+    margin-left:2rem;
+}
+
+.email-login{
+    margin-bottom:1rem;
+}
+
+text-email-login{
+    margin-right:2rem;
+    color:red;
+}
+
+.login__container {
+    background-color: #535755;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 2rem;
+    height: 25rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    padding: 2rem;
+    position: relative;
+}
+
+    .login__container::before {
+        content: '';
+        display: block;
+        width: .4rem;
+        height: 3rem;
+        background-color: #ccff00;
+        position: absolute;
+        left: 0;
+        top: 3.8rem;
+    }
+
+.login__title {
+    color: #ccff00;
+    font-size:2rem;
+}
+
+.login__email {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccff00;
+    color:white;
+    font-size:1.3rem;
+    padding:.4rem;
+}
+
+.login__email:focus {
+    border: none;
+    outline:none;
+    border-bottom: 1px solid #ccff00;
+}
+
+.login__email::placeholder{
+    color:white;
+}
+
+.login__pass {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccff00;
+    color: white;
+    font-size: 1.3rem;
+    padding: .4rem;
+}
+
+    .login__pass:focus {
+        border: none;
+        outline: none;
+        border-bottom: 1px solid #ccff00;
+    }
+
+    .login__pass::placeholder {
+        color: white;
+    }
+
+.login__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 2rem;
+    width: 8rem;
+    height: 1.9rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #ccff00;
+    color: black;
+    font-size: 1rem;
+    cursor:pointer;
+}
+
+.home__title {
+    background-color: #535755;
+    padding:2rem;
+    max-width:30rem;
+    height:15rem;
+    margin:0 auto;
+    margin-top:2rem;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    text-align:center;
+    flex-direction:column;
+    gap:2rem;
+}
+
+.home__rows{
+    display:flex;
+    justify-content:center;
+    margin: 0 auto;
+    gap:5rem;
+}
+
+.home__subtitle {
+    background-color: #535755;
+    border-radius: 10px;
+    text-align: center;
+    height: 15rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 2rem;
+    gap:1rem;
+    max-width: 15rem;
+    margin-top: 2rem;
+}
+
+@media(max-width:36.25em){
+    .home__rows{
+        flex-direction:column;
+        align-items:center;
+    }
+}
+
+.logout__container {
+    background-color: #535755;
+    max-width: 25rem;
+    height: 20rem;
+    margin: 0 auto;
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content:center;
+    text-align:center;
+    gap:2rem;
+    color:white;
+    border-radius:10px;
+    padding:2rem;
+}
+
+.logout__title{
+    border-bottom:.2rem solid white;
+    font-size:2.5rem;
+    color:#ccff00;
+}
+
+.logout__title::after{
+    content:'';
+    display:block;
+    background-color:#ccff00;
+    width:4rem;
+    height:.2rem;
+    margin:0 auto;
+    position:absolute;
+}
+
+.logout__text {
+    font-size: 1.4rem;
+}
+
+.btn.disabled, .btn:disabled {
+    opacity: 0.65;
+}
+
+a.btn.disabled,
+fieldset:disabled a.btn {
+    pointer-events: none;
+}
+
+.table__container { 
+    width: fit-content;
+    margin: 2rem auto;
+    border-collapse: collapse;
+}
+
+.table__head {
+    background-color: black;
+    border: none;
+}
+
+    .table__head th {
+        padding:1rem;
+        color: white;
+    }
+
+        .table__head th:first-child {
+            border-top-left-radius: 5px;
+        }
+
+        .table__head th:last-child {
+            border-top-right-radius: 5px;
+            
+        }
+
+.table__head a{
+ color:white;
+}
+
+.table__head a:hover{
+
+ text-decoration:underline white;
+}
+
+.table__row {
+    background-color: #535755;
+    color:white;
+}
+
+.table__row td{
+    padding:.5rem 1rem ;
+    border-bottom:1px solid black;
+}
+
+.table__head td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.table__btn{
+    border:none;
+    width:4rem;
+    height:1.5rem;
+    border-radius:5px;
+    cursor:pointer;
+    background-color:black;
+    color:white;
+    transition:all .1s ease-in;
+    margin-bottom:1rem;
+}
+
+.table__btn:hover{
+    background-color:#535755;
+}
+
+.table__input{
+    height:1.5rem;
+    border-radius:5px;
+}
+
+.table__input {
+   padding:0 5px;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    transition: 0.5s;
+    outline: none;
+}
+
+    .table__input:focus {
+        border: 3px solid #555;
+    }
+
+.table__search{
+    display:flex;
+    margin:0 auto;
+    justify-content:center;
+    text-align:center;
+}
+
+.stat__title{
+    text-align:center;
+    font-size:2rem;
+    border-bottom:2px solid black;
+    width:fit-content;
+    margin:3rem auto;
+    position:relative;
+}
+
+.stat__title::after{
+    content: '';
+    display:block;
+    width:4.5rem;
+    height:2px;
+    position:absolute;
+    background-color:#ccff00;
+}
+
+.stat__container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    width:fit-content;
+    margin:0 auto;
+}
+
+.stat__container a{
+    color:black;
+    margin-bottom:1rem;
+}
+
+.stat__container a:hover{
+    text-decoration:underline black;
+}
+
+.pw__form{
+    text-align:center;
+}
+
+.pw__form input[type=text] {
+    padding: 0 5px;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    transition: 0.5s;
+    outline: none;
+    margin-bottom:1rem;
+}
+
+    .pw__form input[type=text]:hover {
+        border: 3px solid #555;
+    }
+
+    .pw__form input[type=select]{
+        margin:5rem;
+    }
+
+    .test{
+        margin-bottom:2rem;
+        display:grid;
+        grid-template-columns:repeat(5, 10rem)
+    }
