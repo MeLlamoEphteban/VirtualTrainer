@@ -24,11 +24,11 @@ namespace VirtualTrainer.Controllers
         // GET: Users
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            var isAuthorized = User.IsInRole(Constants.ContactAdministratorsRole);
-            if (!isAuthorized)
-            {
-                return Unauthorized();
-            }
+            //var isAuthorized = User.IsInRole(Constants.ContactAdministratorsRole);
+            //if (!isAuthorized)
+            //{
+            //    return Unauthorized();
+            //}
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["SurnameSortParam"] = sortOrder == "Surname" ? "Surname_desc" : "Surname";

@@ -43,54 +43,74 @@
         </tr>
     </thead>
     @{
-        if(!User.IsInRole(Constants.ContactAdministratorsRole))
+        if (!User.IsInRole(Constants.ContactAdministratorsRole) && !User.IsInRole(Constants.ContactManagersRole))
         {
             <tbody>
-        @foreach (var item in Model) {
-        <tr class='table__row'>
-            <td>
-                @Html.DisplayFor(modelItem => item.EquipmentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Details)
-            </td>
-            <td>
-                <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idequipment">Details</a>
-            </td>
-        </tr>
-}
-    </tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class='table__row'>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EquipmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Details)
+                        </td>
+                        <td>
+                            <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idequipment">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
         }
-}
-    
-@{
-    if(User.IsInRole(Constants.ContactAdministratorsRole))
-    {
-        <tbody>
-        @foreach (var item in Model) {
-        <tr class='table__row'>
-            <td>
-                @Html.DisplayFor(modelItem => item.EquipmentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Details)
-            </td>
-            <td>
-                <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Idequipment">Edit</a> |
-                <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idequipment">Details</a> |
-                <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Idequipment">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+        else if (User.IsInRole(Constants.ContactAdministratorsRole))
+        {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class='table__row'>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EquipmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Details)
+                        </td>
+                        <td>
+                            <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Idequipment">Edit</a> |
+                            <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idequipment">Details</a> |
+                            <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Idequipment">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+        else
+        {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class='table__row'>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EquipmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Details)
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
     }
-}
 </table>
 
 @{

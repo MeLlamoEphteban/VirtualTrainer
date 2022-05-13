@@ -1,4 +1,5 @@
-﻿@model IEnumerable<VirtualTrainer.Subscription>
+﻿@using VirtualTrainer.Authorization
+@model IEnumerable<VirtualTrainer.Subscription>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +7,12 @@
 
 <h1 style='text-align:center; margin:2rem 0'>Subscriptions available for clients</h1>
 
-<p>
-    <a asp-action="Create">Create a new subscription</a>
-</p>
+@if (User.IsInRole(Constants.ContactAdministratorsRole))
+{
+    <p>
+        <a asp-action="Create">Create a new subscription</a>
+    </p>
+}
 <table class="table__container">
     <thead class='table__head'>
         <tr>
@@ -30,12 +34,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AllowedTimeInterval)
             </td>
-            <td>
-                <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Idsubscription">Edit</a> |
-                <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idsubscription">Details</a> |
-                <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Idsubscription">Delete</a>
-            </td>
-        </tr>
+                <td>
+                    @if (User.IsInRole(Constants.ContactAdministratorsRole))
+                    {
+                        <text><a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Idsubscription">Edit</a> |</text>
+                        <text><a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Idsubscription">Details</a> |</text>
+                        <text><a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Idsubscription">Delete</a></text>
+                    }
+                </td>
+            </tr>
 }
     </tbody>
 </table>

@@ -24,7 +24,7 @@
                             <a  asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @{
-                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            if(User.IsInRole(Constants.ContactManagersRole))
                             {
                                 <text>
                                 <li >
@@ -34,7 +34,7 @@
                             }
                         }
                         @{
-                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            if(User.IsInRole(Constants.ContactAdministratorsRole) || User.IsInRole(Constants.ContactManagersRole))
                             {
                                 <text>
                                 <li >
@@ -44,7 +44,7 @@
                             }
                         }
                         @{
-                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            if(User.IsInRole(Constants.ContactAdministratorsRole) || User.IsInRole(Constants.ContactManagersRole))
                             {
                                 <text>
                                 <li>
@@ -54,7 +54,7 @@
                             }
                         }
                         @{
-                            if(User.IsInRole(Constants.ContactAdministratorsRole))
+                            if(User.IsInRole(Constants.ContactAdministratorsRole) || User.IsInRole(Constants.ContactManagersRole))
                             {
                                 <text>
                                 <li >
@@ -73,11 +73,12 @@
                             <a  asp-area="" asp-controller="Guides" asp-action="Index">Guides</a>
                         </li>
                         @{
-                            if(!User.IsInRole(Constants.ContactAdministratorsRole))
+                            if (!User.IsInRole(Constants.ContactAdministratorsRole) && !User.IsInRole(Constants.ContactManagersRole))
                             {
-                                <text><li class="nav-item">
-                            <a  asp-area="" asp-controller="PersonalWorkouts" asp-action="Index">My Workouts</a>
-                        </li></text>
+                                <text>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="PersonalWorkouts" asp-action="Index">My Workouts</a>
+                                </li></text>
                             }
                         }
                     </ul>

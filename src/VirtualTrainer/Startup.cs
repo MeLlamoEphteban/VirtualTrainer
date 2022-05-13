@@ -83,6 +83,8 @@ namespace VirtualTrainer
 
             services.AddSingleton<IAuthorizationHandler,
                       ContactAdministratorsAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler,
+                ContactManagerAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

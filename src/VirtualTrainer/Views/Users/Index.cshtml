@@ -1,4 +1,5 @@
-﻿@model PaginatedList<VirtualTrainer.User>
+﻿@using VirtualTrainer.Authorization
+@model PaginatedList<VirtualTrainer.User>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,9 +17,15 @@
         </p>
     </div>
 </form>
-<p style='text-align:center; margin-top:20px;'>
-<a style='color:black;' asp-action="Create">Insert a new user</a>
-</p>
+@{
+    @if (User.IsInRole(Constants.ContactAdministratorsRole))
+    {
+        <p style='text-align:center; margin-top:20px;'>
+            <a style='color:black;' asp-action="Create">Insert a new user</a>
+        </p>
+    }
+}
+
 <table class="table__container">
     <thead class='table__head'>
         <tr>
@@ -78,7 +85,10 @@
                         else
                         {
                             <text>Subscription Expired</text>
-                            <a style='color:#ccff00' asp-action="Renew" asp-route-id="@item.Iduser">Renew sub</a>
+                            @if (User.IsInRole(Constants.ContactAdministratorsRole))
+                            {
+                                <a style='color:#ccff00' asp-action="Renew" asp-route-id="@item.Iduser">Renew sub</a>
+                            }
                         }
                     </td>
                 }
@@ -99,9 +109,14 @@
                     }
                 </td>
                 <td>
-                    <a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Iduser">Edit</a> |
-                    <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Iduser">Details</a> |
-                    <a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Iduser">Delete</a>
+                @if (User.IsInRole(Constants.ContactAdministratorsRole))
+                {
+                    
+                    <text><a style='color:#03fcb1' asp-action="Edit" asp-route-id="@item.Iduser">Edit</a> |</text>
+                    <text><a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.Iduser">Details</a> |</text>
+                    <text><a style='color:#03fcb1' asp-action="Delete" asp-route-id="@item.Iduser">Delete</a></text>
+                    
+                }
                 </td>
             </tr>
         }
