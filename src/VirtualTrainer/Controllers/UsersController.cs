@@ -155,6 +155,7 @@ namespace VirtualTrainer.Controllers
                     var subscriptionId = await _context.Subscriptions.Where(it => it.Idsubscription == userView.Idsubscription).FirstOrDefaultAsync();
                     newInv.SubName = subscriptionId.SubName;
                     newInv.IssuedDate = DateTime.Now;
+                    newInv.Value = subscriptionId.Price.ToString();
                     _context.Add(newInv);
 
                     await _context.SaveChangesAsync();

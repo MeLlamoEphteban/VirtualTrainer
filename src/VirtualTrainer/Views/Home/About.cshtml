@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Statistics";
 }
 
@@ -7,4 +8,7 @@
 <div class='stat__container'>
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserSubStats"> Number of users registered, sorted by date </a>
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NrUserOnSub"> Number of users registered, sorted by subscription </a>
+<p>All time money: @ViewBag.TotalSum RON</p>
+<br/>
+<p>Money earned today @DateTime.Now.ToString("yyyy-MM-dd") : @ViewBag.CurrentDaySum RON</p>
 </div>

@@ -268,6 +268,10 @@ namespace VirtualTrainer
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Value)
+                    .IsRequired()
+                    .HasMaxLength(3);
+
                 entity.HasOne(d => d.IdSubscriptionNavigation)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.IdSubscription)

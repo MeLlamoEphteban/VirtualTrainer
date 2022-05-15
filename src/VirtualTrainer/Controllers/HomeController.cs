@@ -41,6 +41,9 @@ namespace VirtualTrainer.Controllers
 
         public IActionResult About()
         {
+            //call functions
+            TotalValue();
+            CurrentDayValue();
             return View();
         }
 
@@ -68,6 +71,31 @@ namespace VirtualTrainer.Controllers
                                                UserCount = nameGroup.Count()
                                            };
             return View(await data.AsNoTracking().ToListAsync());
+        }
+
+        private void TotalValue()
+        {
+            var allInvoices = _context.Invoices.ToArray();
+            int sum = 0;
+            foreach(var invoice in allInvoices)
+            {
+                int x = Int32.Parse(invoice.Value);
+                sum+= x;
+            }
+            ViewBag.TotalSum = sum;
+        }
+
+        private void CurrentDayValue()
+        {
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var allInvoices = _context.Invoices.Where(dd => dd.IssuedDate.ToString() == date).ToArray();
+            int sum = 0;
+            foreach (var invoice in allInvoices)
+            {
+                int x = Int32.Parse(invoice.Value);
+                sum += x;
+            }
+            ViewBag.CurrentDaySum = sum;
         }
     }
 }

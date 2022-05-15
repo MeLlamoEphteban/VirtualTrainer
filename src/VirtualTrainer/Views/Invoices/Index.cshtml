@@ -30,9 +30,9 @@
             <th>
                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Issued Data</a>
             </th>
-            @*<th>
+            <th>
                 Value(RON)
-            </th>*@
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -48,9 +48,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IssuedDate)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.IdSubscriptionNavigation.Price)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
             <td>
                 <a style='color:#03fcb1' asp-action="Details" asp-route-id="@item.IdInvoice">Details</a>
             </td>
