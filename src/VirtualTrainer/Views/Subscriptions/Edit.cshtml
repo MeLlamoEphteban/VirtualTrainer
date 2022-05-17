@@ -4,35 +4,31 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="create__title">Edit selected subscription</h1>
 
-<h4>Subscription</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Idsubscription" />
-            <div class="form-group">
-                <label asp-for="SubName" class="control-label">Subscription Name</label>
-                <input asp-for="SubName" class="form-control" />
-                <span asp-validation-for="SubName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AllowedTimeInterval" class="control-label">Allowed Time Interval</label>
-                <input asp-for="AllowedTimeInterval" class="form-control" />
-                <span asp-validation-for="AllowedTimeInterval" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label">Price</label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class='create__container'>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly"></div>
+        <input type="hidden" asp-for="Idsubscription" />
+        <div>
+            <label asp-for="SubName">Subscription Name</label>
+            <input asp-for="SubName" class='create__input' placeholder='Subscription name' />
+            <span asp-validation-for="SubName"></span>
+        </div>
+        <div>
+            <label asp-for="AllowedTimeInterval">Allowed Time Interval</label>
+            <input asp-for="AllowedTimeInterval" class='create__input' placeholder='Time Interval' />
+            <span asp-validation-for="AllowedTimeInterval"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price">Price</label>
+            <input asp-for="Price" class='create__input' placeholder='Price' />
+            <span asp-validation-for="Price"></span>
+        </div>
+        <div>
+            <input type="submit" value="Save" class='create__btn create__customBtn' />
+        </div>
+    </form>
 </div>
 
 <div>

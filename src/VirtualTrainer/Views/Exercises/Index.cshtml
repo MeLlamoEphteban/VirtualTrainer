@@ -10,8 +10,8 @@
 @{
     if(User.IsInRole(Constants.ContactAdministratorsRole))
     {
-        <p>
-        <a asp-action="Create">Insert a new exercises</a>
+        <p style='text-align:center; margin-bottom:20px;'>
+        <a style='color:black;' asp-action="Create">Insert a new exercises</a>
         </p>
     }
 }
@@ -50,7 +50,7 @@
     @{
         if (!User.IsInRole(Constants.ContactAdministratorsRole) && !User.IsInRole(Constants.ContactManagersRole))
         {
-            <tbody>
+            <tbody >
                 @foreach (var item in Model)
                 {
                     <tr class='table__row'>
@@ -66,7 +66,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Weight)
                         </td>
-                        <td>
+                        <td class='text__wrap'>
                             @Html.DisplayFor(modelItem => item.Instructions)
                         </td>
                         <td>
@@ -94,7 +94,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Weight)
                         </td>
-                        <td>
+                        <td class='text__wrap'>
                             @Html.DisplayFor(modelItem => item.Instructions)
                         </td>
                         <td>
@@ -124,7 +124,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Weight)
                         </td>
-                        <td>
+                        <td class='text__wrap'>
                             @Html.DisplayFor(modelItem => item.Instructions)
                         </td>
                         <td>

@@ -4,68 +4,59 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="create__title">Create a user</h1>
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cnp" class="control-label">CNP</label>
-                <input asp-for="Cnp" class="form-control" />
-                <span asp-validation-for="Cnp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label">Password</label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Idsubscription" class="control-label">Subscription name</label>
-                <br />
-                @Html.DropDownListFor(it => it.Idsubscription, (SelectListItem[])ViewBag.SubscriptionID)
-                <span asp-validation-for="Idsubscription" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="startDate" class="control-label">Start Date</label>
-                <input asp-for="startDate" class="form-control" />
-                <span asp-validation-for="startDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="button" onclick="return generatePass()">Generate Password</button>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class='create__container'>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            @*<label asp-for="Name" class='create__label'></label>*@
+            <input asp-for="Name" class='create__input' placeholder='Name' />
+            <span asp-validation-for="Name"></span>
+            @*<label asp-for="Surname" class='create__label'></label>*@
+            <input asp-for="Surname" class='create__input ' placeholder='Surname' />
+            <span asp-validation-for="Surname"></span>
+        </div>
+        <div>
+            @*<label asp-for="Email" class='create__label'></label>*@
+            <input asp-for="Email" class='create__input create__long' placeholder='Email' />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            @*<label asp-for="Address" class='create__label'></label>*@
+            <input asp-for="Address" class='create__input create__long' placeholder='Address' />
+            <span asp-validation-for="Address"></span>
+        </div>
+        <div>
+            @*<label asp-for="Phone" class='create__label'></label>*@
+            <input asp-for="Phone" class='create__input create__long' placeholder='Phone' />
+            <span asp-validation-for="Phone"></span>
+        </div>
+        <div>
+            @*<label asp-for="Cnp" class='create__label'>CNP</label>*@
+            <input asp-for="Cnp" class='create__input create__long' placeholder='CNP' />
+            <span asp-validation-for="Cnp"></span>
+        </div>
+        <div>
+            @*<label asp-for="Password" class='create__label'>Password</label>*@
+            <input asp-for="Password" class='create__input' placeholder='Password' />
+            <span asp-validation-for="Password"></span>
+            <button class='create__btn' type="button" onclick="return generatePass()">Generate Password</button>
+        </div>
+        <div>
+            <label asp-for="Idsubscription">Subscription name</label>
+            @Html.DropDownListFor(it => it.Idsubscription, (SelectListItem[])ViewBag.SubscriptionID)
+            <span asp-validation-for="Idsubscription" />
+        </div>
+        <div>
+            <label asp-for="startDate">Start Date</label>
+            <input asp-for="startDate" class='create__date' />
+            <span asp-validation-for="startDate"></span>
+        </div>
+        <div>
+            <input type="submit" value="Create" class='create__btn create__customBtn' />
+        </div>
+    </form>
 </div>
 
 <div>

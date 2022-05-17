@@ -4,43 +4,38 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class='pw__title'>Edit selected workout</h1>
 
-<h4>Personal Workout</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div>
+        <form class='pw__form' asp-action="Edit">
+            <div asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="PersWorkoutId" />
-            <div class="form-group">
-                <label asp-for="WorkoutName" class="control-label"></label>
-                <input asp-for="WorkoutName" class="form-control" />
-                <span asp-validation-for="WorkoutName" class="text-danger"></span>
+            <div>
+                <label asp-for="WorkoutName"></label>
+                <br />
+                <input class="pw__input" asp-for="WorkoutName" />
+                <span asp-validation-for="WorkoutName"></span>
             </div>
-           <div class="form-group">
-                <label asp-for="WorkProgramId" class="control-label">Program Name</label>
+           <div>
+                <label asp-for="WorkProgramId">Program Name</label>
                 <br />
                 @Html.DropDownListFor(it => it.WorkProgramId, (SelectListItem[])ViewBag.WorkPrograms)
-                <span asp-validation-for="WorkProgramId" class="text-danger" />
+                <span asp-validation-for="WorkProgramId" />
             </div>
-            <div class="form-group">
-                <label asp-for="ProgramTypeId" class="control-label">Program Type Name</label>
+            <div>
+                <label asp-for="ProgramTypeId">Program Type Name</label>
                 <br />
                 @Html.DropDownListFor(it => it.ProgramTypeId, (SelectListItem[])ViewBag.ProgramTypes)
-                <span asp-validation-for="ProgramTypeId" class="text-danger" />
+                <span asp-validation-for="ProgramTypeId" />
             </div>
-            <div class="form-group">
-                <label asp-for="BodyGroupId" class="control-label">Body Group Name</label>
+            <div>
+                <label asp-for="BodyGroupId">Body Group Name</label>
                 <br />
                 @Html.DropDownListFor(it => it.BodyGroupId, (SelectListItem[])ViewBag.BodyGroups)
-                <span asp-validation-for="BodyGroupId" class="text-danger" />
+                <span asp-validation-for="BodyGroupId" />
             </div>
             Exercises:
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <table>
-                        <tr>
+            <div class='pw__checkbox'>
                             @{
                                 int cnt = 0;
                                 List<VirtualTrainer.Models.ViewModels.UserAddsProgram> exercises = ViewBag.Exercises;
@@ -49,23 +44,19 @@
                                 {
                                     if(cnt++ % 14 == 0)
                                     {
-                                        @:</tr><tr>
+                                        
                                     }
-                                    @:<td>
+                                    @:<div class='pw__container'>
                                     <input type="checkbox" name="selectedExercises" value="@ex.ExerciseID" @(Html.Raw(ex.Assigned ? "checked=\"checked\"" : ""))/>
-                                            @ex.ExerciseID @: @ex.Name
-                                    @:</td>
+                                            /*@ex.ExerciseID*/ @: @ex.Name
+                                    @:</div>
                                 }
-                                @:</tr>
                             }
-                    </table>
-                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div>
+                <input type="submit" value="Save" class='pw__submit' />
             </div>
         </form>
-    </div>
 </div>
 
 <div>

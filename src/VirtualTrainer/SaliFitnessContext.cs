@@ -198,7 +198,7 @@ namespace VirtualTrainer
                     .IsRequired()
                     .HasMaxLength(150);
 
-                entity.Property(e => e.Instructions).HasMaxLength(50);
+                entity.Property(e => e.Instructions).HasMaxLength(450);
 
                 entity.Property(e => e.Reps).HasDefaultValueSql("((12))");
 

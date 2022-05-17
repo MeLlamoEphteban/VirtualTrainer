@@ -4,29 +4,38 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="create__title">Create a new exercise</h1>
 
-<h4>Exercise</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ExerciseName" class="control-label"></label>
-                <input asp-for="ExerciseName" class="form-control" />
-                <span asp-validation-for="ExerciseName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Instructions" class="control-label"></label>
-                <input asp-for="Instructions" class="form-control" />
-                <span asp-validation-for="Instructions" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class='create__container'>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            @*<label asp-for="ExerciseName"></label>*@
+            <input asp-for="ExerciseName" class='create__input create__long' placeholder='Exercise name' />
+            <span asp-validation-for="ExerciseName"></span>
+        </div>
+        <div>
+            @*<label asp-for="Sets"></label>*@
+            <input asp-for="Sets" class='create__input' placeholder='Sets' />
+            <span asp-validation-for="Sets"></span>
+            @*<label asp-for="Reps"></label>*@
+            <input asp-for="Reps" class='create__input' placeholder='Reps' />
+            <span asp-validation-for="Reps"></span>
+        </div>
+         <div>
+            @*<label asp-for="Weight"></label>*@
+            <input asp-for="Weight" class='create__input create__long' placeholder='Weight' />
+            <span asp-validation-for="Weight"></span>
+        </div>
+        <div>
+            @*<label asp-for="Instructions"></label>*@
+            <input asp-for="Instructions" class='create__input create__long' placeholder='Instructions' />
+            <span asp-validation-for="Instructions"></span>
+        </div>
+        <div>
+            <input type="submit" value="Create" class='create__btn create__customBtn' />
+        </div>
+    </form>
 </div>
 
 <div>

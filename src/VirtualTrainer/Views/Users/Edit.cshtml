@@ -4,50 +4,45 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="create__title">Edit selected user</h1>
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class='create__container'>
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="Iduser" />
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class='create__input' placeholder='Name'/>
+                <span asp-validation-for="Name"></span>
+
+                <label asp-for="Surname"></label>
+                <input asp-for="Surname" class='create__input' placeholder='Surname'/>
+                <span asp-validation-for="Surname"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class='create__input create__long' placeholder='Email'/>
+                <span asp-validation-for="Email"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
+            <div>
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class='create__input create__long' placeholder='Address'/>
+                <span asp-validation-for="Address"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+            <div>
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class='create__input create__long' placeholder='Phone'/>
+                <span asp-validation-for="Phone"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+            <div>
+                <label asp-for="Cnp">CNP</label>
+                <input asp-for="Cnp" class='create__input create__long' placeholder='CNP'/>
+                <span asp-validation-for="Cnp"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Cnp" class="control-label">CNP</label>
-                <input asp-for="Cnp" class="form-control" />
-                <span asp-validation-for="Cnp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div>
+                <input type="submit" value="Save" class='create__btn create__customBtn' />
             </div>
         </form>
-    </div>
 </div>
 
 <div>

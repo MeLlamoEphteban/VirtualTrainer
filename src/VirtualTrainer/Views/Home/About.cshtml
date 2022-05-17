@@ -9,6 +9,12 @@
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserSubStats"> Number of users registered, sorted by date </a>
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NrUserOnSub"> Number of users registered, sorted by subscription </a>
 <p>All time money: @ViewBag.TotalSum RON</p>
-<br/>
+<br />
 <p>Money earned today @DateTime.Now.ToString("yyyy-MM-dd") : @ViewBag.CurrentDaySum RON</p>
+<br />
+<p>Total number of users that have an active subscription: @ViewBag.ActiveUsers</p>
+<br />
+<p>Total number of users that have an expired subscription: @ViewBag.InactiveUsers</p>
+<br />
+<p>Total number of users registered today @DateTime.Now.ToString("yyyy-MM-dd") : @ViewBag.TodaysUsers</p>
 </div>

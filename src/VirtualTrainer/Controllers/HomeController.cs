@@ -44,6 +44,7 @@ namespace VirtualTrainer.Controllers
             //call functions
             TotalValue();
             CurrentDayValue();
+            UsersNumber();
             return View();
         }
 
@@ -96,6 +97,36 @@ namespace VirtualTrainer.Controllers
                 sum += x;
             }
             ViewBag.CurrentDaySum = sum;
+        }
+
+        private void UsersNumber()
+        {
+            var date = DateTime.Now;
+            var stringDate = DateTime.Now.ToString("yyyy-MM-dd");
+            var allUsers = _context.UserSubscriptions.ToArray();
+            var activeUsers = allUsers.Where(us => us.EndDate > date).ToArray();
+            var nonactiveUsers = allUsers.Where(us => us.EndDate < date).ToArray();
+            var todayUsers = allUsers.Where(us => us.StartDate.ToString("yyyy-MM-dd") == stringDate).ToArray();
+            int sumActive = 0;
+            foreach(var user in activeUsers)
+            {
+                sumActive += 1;
+            }
+            ViewBag.ActiveUsers = sumActive;
+
+            int sumInactive = 0;
+            foreach(var nuser in nonactiveUsers)
+            {
+                sumInactive += 1;
+            }
+            ViewBag.InactiveUsers = sumInactive;
+
+            int sumCurrUsers = 0;
+            foreach (var user in todayUsers)
+            {
+                sumCurrUsers += 1;
+            }
+            ViewBag.TodaysUsers = sumCurrUsers;
         }
     }
 }

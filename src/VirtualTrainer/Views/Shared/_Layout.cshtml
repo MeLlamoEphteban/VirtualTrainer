@@ -84,7 +84,13 @@
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />
-                <button type="button" onclick="showMenu()" class="phone-menu" id="buttonM">Menu <img id="img_menu" src="@Url.Content("~/src/images/menu.png")"/></button>
+@*                <button type="button" onclick="showMenu()" class="phone-menu" id="buttonM">Menu <img id="img_menu" src="@Url.Content("~/src/images/menu.png")"/></button>
+*@                <div class="phone-menu" onclick="showMenu()" id="buttonM"> 
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
 
             </div>
         </nav>
