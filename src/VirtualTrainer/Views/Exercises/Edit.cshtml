@@ -10,29 +10,29 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="Idexercise" />
-        <div>
+        <div class='edit__align'>
             <label asp-for="ExerciseName">Exercise Name</label>
-            <input asp-for="ExerciseName" class='create__input create__long' placeholder='Exercise name' />
+            <input asp-for="ExerciseName" class='create__input edit__long__exname' placeholder='Exercise name' />
             <span asp-validation-for="ExerciseName"></span>
         </div>
-        <div>
-            <label asp-for="Sets"></label>
-            <input asp-for="Sets" class='create__input create__long' placeholder='Sets' />
+        <div class='edit__align'>
+            <label asp-for="Sets" class='edit__align__sets'></label>
+            <input asp-for="Sets" class='create__input edit__long__sets' placeholder='Sets' />
             <span asp-validation-for="Sets"></span>
         </div>
-        <div>
-            <label asp-for="Reps"></label>
-            <input asp-for="Reps" class='create__input create__long' placeholder='Reps' />
+        <div class='edit__align'>
+            <label asp-for="Reps" class='edit__align__reps'></label>
+            <input asp-for="Reps" class='create__input edit__long__reps' placeholder='Reps' />
             <span asp-validation-for="Reps"></span>
         </div>
-        <div>
-            <label asp-for="Weight"></label>
-            <input asp-for="Weight" class='create__input create__long' placeholder='Weight' />
+        <div class='edit__align'>
+            <label asp-for="Weight" class='edit__align__weight'></label>
+            <input asp-for="Weight" class='create__input edit__long__weight' placeholder='Weight' />
             <span asp-validation-for="Weight"></span>
         </div>
-        <div>
-            <label asp-for="Instructions"></label>
-            <input asp-for="Instructions" class='create__input create__long' placeholder='Instructions' />
+        <div class='edit__align'>
+            <label asp-for="Instructions" class='edit__align__inst'></label>
+            <input asp-for="Instructions" class='create__input edit__long__inst' placeholder='Instructions' />
             <span asp-validation-for="Instructions"></span>
         </div>
         <div>

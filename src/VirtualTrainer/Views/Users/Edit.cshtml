@@ -19,23 +19,23 @@
                 <input asp-for="Surname" class='create__input' placeholder='Surname'/>
                 <span asp-validation-for="Surname"></span>
             </div>
-            <div>
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class='create__input create__long' placeholder='Email'/>
+            <div class='edit__align'>
+                <label asp-for="Email" class='edit__label'></label>
+                <input asp-for="Email" class='create__input create__long ' placeholder='Email'/>
                 <span asp-validation-for="Email"></span>
             </div>
-            <div>
+            <div class='edit__align'>
                 <label asp-for="Address"></label>
                 <input asp-for="Address" class='create__input create__long' placeholder='Address'/>
                 <span asp-validation-for="Address"></span>
             </div>
-            <div>
-                <label asp-for="Phone"></label>
+            <div class='edit__align'>
+                <label asp-for="Phone" class='edit__align--phone'></label>
                 <input asp-for="Phone" class='create__input create__long' placeholder='Phone'/>
                 <span asp-validation-for="Phone"></span>
             </div>
-            <div>
-                <label asp-for="Cnp">CNP</label>
+            <div class='edit__align'>
+                <label asp-for="Cnp" class='edit__align--cnp'>CNP</label>
                 <input asp-for="Cnp" class='create__input create__long' placeholder='CNP'/>
                 <span asp-validation-for="Cnp"></span>
             </div>

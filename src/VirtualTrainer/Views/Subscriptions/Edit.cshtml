@@ -10,19 +10,19 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="Idsubscription" />
-        <div>
+        <div class='edit__align'>
             <label asp-for="SubName">Subscription Name</label>
-            <input asp-for="SubName" class='create__input' placeholder='Subscription name' />
+            <input asp-for="SubName" class='create__input edit__long__subname' placeholder='Subscription name' />
             <span asp-validation-for="SubName"></span>
         </div>
-        <div>
-            <label asp-for="AllowedTimeInterval">Allowed Time Interval</label>
-            <input asp-for="AllowedTimeInterval" class='create__input' placeholder='Time Interval' />
+        <div class='edit__align'>
+            <label asp-for="AllowedTimeInterval" class='edit_align_time'>Time Interval</label>
+            <input asp-for="AllowedTimeInterval" class='create__input edit__long__subtime' placeholder='Time Interval' />
             <span asp-validation-for="AllowedTimeInterval"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="Price">Price</label>
-            <input asp-for="Price" class='create__input' placeholder='Price' />
+        <div class='edit__align'>
+            <label asp-for="Price" class='edit__align__price'>Price</label>
+            <input asp-for="Price" class='create__input edit__long__subprice' placeholder='Price' />
             <span asp-validation-for="Price"></span>
         </div>
         <div>

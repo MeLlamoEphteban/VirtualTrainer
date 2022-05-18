@@ -602,15 +602,109 @@ fieldset:disabled a.btn {
     margin-bottom:1.5rem;
 }
 
+.edit__align {
+    margin-right: auto;
+    margin: 0 auto;
+    width: 30.5rem;
+    text-align: start;
+}
+
+.edit__label{
+    margin-right:1.15rem;
+}
+
+.edit__align--phone{
+    margin-right:0.8rem;
+}
+
+.edit__align--cnp{
+    margin-right:1.6rem;
+}
+
+.edit__align__price{
+    margin-right: 6rem;
+}
+
+.edit_align_time{
+    margin-right:2.6rem;
+}
+
+.edit__align__stock{
+    margin-right:5.2rem;
+}
+
+.edit__align__details
+{
+    margin-right:4.7rem;
+}
+
+.edit__align__sets{
+    margin-right:4.8rem;
+}
+
+.edit__align__reps {
+    margin-right: 4.5rem;
+}
+
+.edit__align__weight {
+    margin-right: 3.8rem;
+}
+
+.edit__align__inst {
+    margin-right: 1.8rem;
+}
+
+.edit__long__exname {
+    width: 23rem;
+}
+
+.edit__long__sets {
+    width: 23rem;
+}
+
+.edit__long__reps {
+    width: 23rem;
+}
+
+.edit__long__weight {
+    width: 23rem;
+}
+
+.edit__long__inst {
+    width: 23rem;
+}
+
+.edit__long__subname {
+    width: 21rem;
+}
+
+.edit__long__subtime{
+    width:21rem;
+}
+
+.edit__long__subprice{
+    width:21rem;
+}
+
+.edit__long__eqname{
+    width: 22rem;
+}
+
+.edit__long__stock{
+    width:22rem;
+}
+
+.edit__long__details{
+    width:22rem;
+}
+
 .create__input:focus {
     border: 3px solid #282828;
 }
 
-
 .create__long{
-    width:23rem;
+    width:25rem;
 }
-
 
 .create__btn {
     width:11rem;
@@ -627,8 +721,6 @@ fieldset:disabled a.btn {
     .create__btn:hover {
         background-color: #808080;
     }
-
-
 
 .create__date {
     margin-top: 1rem;
@@ -648,3 +740,52 @@ fieldset:disabled a.btn {
         border-bottom: 1px solid black;
         border-style: hidden !important;
     }
+
+.delete__title{
+    text-align:center;
+    margin:2rem 0;
+    font-size:1.7rem;
+}
+
+.delete__container {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.delete__li{
+    margin-bottom:1rem;
+}
+
+.delete__li:first-child{
+    margin-top:2rem;
+}
+
+.delete__btn {
+    width: 8rem;
+    height: 1.9rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #535755;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.delete__btn:hover {
+    background-color: #808080;
+}
+
+.privacy-policy h1 {
+    margin: 2rem;
+    font-size: 1.7rem;
+}
+
+.privacy-policy h2 {
+    margin: 1rem;
+}
+
+.privacy-policy p {
+    opacity: 0.9;
+    margin-left: 1rem;
+}

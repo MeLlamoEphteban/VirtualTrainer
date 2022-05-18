@@ -10,19 +10,19 @@
     <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="Idequipment" />
-        <div>
+        <div class='edit__align'>
             <label asp-for="EquipmentName">Equipment Name</label>
-            <input asp-for="EquipmentName" class='create__input create__long' placeholder='Equipment name' />
+            <input asp-for="EquipmentName" class='create__input edit__long__eqname' placeholder='Equipment name' />
             <span asp-validation-for="EquipmentName"></span>
         </div>
-        <div>
-            <label asp-for="Stock"></label>
-            <input asp-for="Stock" class='create__input create__long' placeholder='Stock' />
+        <div class='edit__align'>
+            <label asp-for="Stock" class='edit__align__stock'></label>
+            <input asp-for="Stock" class='create__input edit__long__stock' placeholder='Stock' />
             <span asp-validation-for="Stock"></span>
         </div>
-        <div>
-            <label asp-for="Details"></label>
-            <input asp-for="Details" class='create__input create__long' placeholder='Details' />
+        <div class='edit__align'>
+            <label asp-for="Details" class='edit__align__details'></label>
+            <input asp-for="Details" class='create__input edit__long__details' placeholder='Details' />
             <span asp-validation-for="Details"></span>
         </div>
         <div>
