@@ -6,21 +6,23 @@
 }
 
 <div>
-    <h3>Work Programs</h3>
-    <h4>Selected user is @Model.user.Name .</h4>
-    <dd class="col-sm-10">
-        <table class="table">
+    <h3 style='text-align:center; margin:2rem 0'>Work Programs</h3>
+    <h4 style='text-align:center; margin:2rem 0'>Selected user is @Model.user.Name</h4>
+    <table class="table__container">
+        <thead class='table__head'>
             <tr>
                 <th>Program Name</th>
             </tr>
-            @foreach(var vp in Model.workPrograms)
+        </thead>
+        <tbody class='table__row'>
+            @foreach (var vp in Model.workPrograms)
             {
                 <tr>
                     <td>@vp.ProgramName</td>
                 </tr>
             }
-        </table>
-    </dd>
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

@@ -637,3 +637,14 @@ fieldset:disabled a.btn {
 .create__customBtn {
     margin-top:1rem;
 }
+
+.table__row_guides {
+    background-color: #535755;
+    color: white;
+}
+
+    .table__row_guides td {
+        padding: .5rem 1rem;
+        border-bottom: 1px solid black;
+        border-style: hidden !important;
+    }

@@ -4,30 +4,31 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 style='text-align:center; margin:2rem 0'>Equipment Details</h1>
 
 <div>
-    <h3>Equipment</h3>
-    <h4>Selected equipment is @Model.equipment.EquipmentName.</h4>
-    <dd class="col-sm-10">
-        <table class="table">
+    <h3 style='text-align:center; margin:2rem 0'>Selected equipment is @Model.equipment.EquipmentName.</h3>
+    <table class="table__container">
+        <thead class='table__head'>
             <tr>
                 <th>Exercise Name</th>
                 <th>Reps</th>
                 <th>Sets</th>
                 <th>Instructions</th>
             </tr>
-            @foreach(var vp in Model.exercises)
+        </thead>
+        <tbody class='table__row'>
+            @foreach (var vp in Model.exercises)
             {
                 <tr>
                     <td>@vp.ExerciseName</td>
                     <td>@vp.Reps</td>
                     <td>@vp.Sets</td>
-                    <td>@vp.Instructions</td>
+                    <td class='text__wrap'>@vp.Instructions</td>
                 </tr>
             }
-        </table>
-    </dd>
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

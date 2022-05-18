@@ -4,18 +4,19 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 style='text-align:center; margin:2rem 0'>Subscription Details</h1>
 
 <div>
-    <h3>Subscription</h3>
-    <h4>The current subscription has @Model.Length users registered:</h4>
-    <dd class="col-sm-10">
-        <table class="table">
+    <h3 style='text-align:center; margin:2rem 0'>The current subscription has @Model.Length users registered:</h3>
+    <table class="table__container">
+        <thead class='table__head'>
             <tr>
                 <th>Email</th>
                 <th>Surname</th>
                 <th>Name</th>
             </tr>
+        </thead>
+        <tbody class='table__row'>
             @foreach (var vp in Model)
             {
                 <tr>
@@ -24,7 +25,7 @@
                     <td>@vp.Name</td>
                 </tr>
             }
-        </table>
-    </dd>
+        </tbody>
+    </table>
     <a asp-action="Index">Back to List</a>
 </div>
