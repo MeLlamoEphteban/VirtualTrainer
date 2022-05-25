@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Statistics";
 }
 
@@ -10,11 +9,32 @@
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NrUserOnSub"> Number of users registered, sorted by subscription </a>
 <p>All time money: @ViewBag.TotalSum RON</p>
 <br />
-<p>Money earned today @DateTime.Now.ToString("yyyy-MM-dd") : @ViewBag.CurrentDaySum RON</p>
+<p>Money earned today @DateTime.Now.ToString("dd/MM/yyyy") : @ViewBag.CurrentDaySum RON</p>
 <br />
 <p>Total number of users that have an active subscription: @ViewBag.ActiveUsers</p>
 <br />
 <p>Total number of users that have an expired subscription: @ViewBag.InactiveUsers</p>
 <br />
-<p>Total number of users registered today @DateTime.Now.ToString("yyyy-MM-dd") : @ViewBag.TodaysUsers</p>
+<p>Total number of users registered today @DateTime.Now.ToString("dd/MM/yyyy") : @ViewBag.TodaysUsers</p>
+<br />
+<br />
+@using (Html.BeginForm("About", "Home"))
+{
+    <label for="datePicker">Type in a date:</label>
+
+    @Html.TextBox("datePicker", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePicker" })
+    <br />
+    <br />
+    <label for="datePickerStart">Type in starting date:</label>
+    @Html.TextBox("datePickerStart", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePickerStart" })
+    <br />
+    <br />
+    <label for="datePickerEnd">Type in ending date:</label>
+    @Html.TextBox("datePickerEnd", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePickerEnd" })
+    <br />
+    <input id="submitBtn" type="submit" value="Search" class='create__btn create__customBtn' />
+    <a asp-action="About">Refresh</a>
+}
+<p>Money earned for the selected date: @ViewBag.SelectedDateSum RON</p>
+<p>Money earned in the time period selected: @ViewBag.BetweenSum RON</p>
 </div>

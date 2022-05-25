@@ -9,6 +9,8 @@ using VirtualTrainer.Models;
 using Microsoft.EntityFrameworkCore;
 using VirtualTrainer.Data;
 using VirtualTrainer.Models.GymViewModels;
+using VirtualTrainer.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace VirtualTrainer.Controllers
 {
@@ -41,10 +43,39 @@ namespace VirtualTrainer.Controllers
 
         public IActionResult About()
         {
-            //call functions
             TotalValue();
             CurrentDayValue();
             UsersNumber();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult About(DateTime? datePicker)
+        {
+            DateTime userSelectedDate = DateTime.ParseExact(Request.Form["datePicker"].ToString(), "dd/MM/yyyy", null);
+            
+            //value for a selected date
+            var allInvoices = _context.Invoices.Where(dd => dd.IssuedDate == userSelectedDate).ToArray();
+            int sumFirst = 0;
+            foreach (var invoice in allInvoices)
+            {
+                int x = Int32.Parse(invoice.Value);
+                sumFirst += x;
+            }
+            ViewBag.SelectedDateSum = sumFirst;
+
+            //value between two selected dates
+            DateTime startDate = DateTime.ParseExact(Request.Form["datePickerStart"].ToString(), "dd/MM/yyyy", null);
+            DateTime endDate = DateTime.ParseExact(Request.Form["datePickerEnd"].ToString(), "dd/MM/yyyy", null);
+            int sumBetween = 0;
+            var allInvoices1 = _context.Invoices.Where(dd => dd.IssuedDate >= startDate && dd.IssuedDate <= endDate).ToArray();
+            foreach (var invoice in allInvoices1)
+            {
+                int x = Int32.Parse(invoice.Value);
+                sumBetween += x;
+            }
+            ViewBag.BetweenSum = sumBetween;
+
             return View();
         }
 
