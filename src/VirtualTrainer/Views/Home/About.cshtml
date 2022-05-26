@@ -7,6 +7,7 @@
 <div class='stat__container'>
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserSubStats"> Number of users registered, sorted by date </a>
 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NrUserOnSub"> Number of users registered, sorted by subscription </a>
+<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ValuesPerMonth"> Total invoices value in every month</a>
 <p>All time money: @ViewBag.TotalSum RON</p>
 <br />
 <p>Money earned today @DateTime.Now.ToString("dd/MM/yyyy") : @ViewBag.CurrentDaySum RON</p>
@@ -20,21 +21,24 @@
 <br />
 @using (Html.BeginForm("About", "Home"))
 {
-    <label for="datePicker">Type in a date:</label>
+    <p style="color:red;">@ViewBag.ErrorMessage</p>
+    <label for="datePicker">Type in a date (ex:17/05/2022):</label>
 
-    @Html.TextBox("datePicker", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePicker" })
+    @Html.TextBox("datePicker", "", new { id ="datePicker" })
     <br />
     <br />
     <label for="datePickerStart">Type in starting date:</label>
-    @Html.TextBox("datePickerStart", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePickerStart" })
+    @Html.TextBox("datePickerStart", "", new { id ="datePickerStart" })
     <br />
     <br />
     <label for="datePickerEnd">Type in ending date:</label>
-    @Html.TextBox("datePickerEnd", @DateTime.Now.ToString("dd/MM/yyyy"), new { id ="datePickerEnd" })
+    @Html.TextBox("datePickerEnd", "", new { id ="datePickerEnd" })
     <br />
     <input id="submitBtn" type="submit" value="Search" class='create__btn create__customBtn' />
     <a asp-action="About">Refresh</a>
 }
+<br />
 <p>Money earned for the selected date: @ViewBag.SelectedDateSum RON</p>
+<br />
 <p>Money earned in the time period selected: @ViewBag.BetweenSum RON</p>
 </div>

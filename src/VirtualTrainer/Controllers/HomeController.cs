@@ -52,31 +52,66 @@ namespace VirtualTrainer.Controllers
         [HttpPost]
         public ActionResult About(DateTime? datePicker)
         {
-            DateTime userSelectedDate = DateTime.ParseExact(Request.Form["datePicker"].ToString(), "dd/MM/yyyy", null);
-            
-            //value for a selected date
-            var allInvoices = _context.Invoices.Where(dd => dd.IssuedDate == userSelectedDate).ToArray();
-            int sumFirst = 0;
-            foreach (var invoice in allInvoices)
-            {
-                int x = Int32.Parse(invoice.Value);
-                sumFirst += x;
-            }
-            ViewBag.SelectedDateSum = sumFirst;
+            DateTime userSelectedDate;
+            DateTime startDate;
+            DateTime endDate;
 
-            //value between two selected dates
-            DateTime startDate = DateTime.ParseExact(Request.Form["datePickerStart"].ToString(), "dd/MM/yyyy", null);
-            DateTime endDate = DateTime.ParseExact(Request.Form["datePickerEnd"].ToString(), "dd/MM/yyyy", null);
-            int sumBetween = 0;
-            var allInvoices1 = _context.Invoices.Where(dd => dd.IssuedDate >= startDate && dd.IssuedDate <= endDate).ToArray();
-            foreach (var invoice in allInvoices1)
+            //first txtbox is filled correctly and the other are empty/null
+            if(DateTime.TryParseExact(Request.Form["datePicker"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out userSelectedDate)
+                && !DateTime.TryParseExact(Request.Form["datePickerStart"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out startDate)
+                && !DateTime.TryParseExact(Request.Form["datePickerEnd"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out endDate))
             {
-                int x = Int32.Parse(invoice.Value);
-                sumBetween += x;
-            }
-            ViewBag.BetweenSum = sumBetween;
+                var allInvoices = _context.Invoices.Where(dd => dd.IssuedDate == userSelectedDate).ToArray();
+                int sumFirst = 0;
+                foreach (var invoice in allInvoices)
+                {
+                    int x = Int32.Parse(invoice.Value);
+                    sumFirst += x;
+                }
+                ViewBag.SelectedDateSum = sumFirst;
+                return View();
+            } //all textboxex are filled correctly
+            else if(DateTime.TryParseExact(Request.Form["datePicker"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out userSelectedDate)
+                    && DateTime.TryParseExact(Request.Form["datePickerStart"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out startDate)
+                    && DateTime.TryParseExact(Request.Form["datePickerEnd"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out endDate))
+            {
+                var allInvoices = _context.Invoices.Where(dd => dd.IssuedDate == userSelectedDate).ToArray();
+                int sumFirst = 0;
+                foreach (var invoice in allInvoices)
+                {
+                    int x = Int32.Parse(invoice.Value);
+                    sumFirst += x;
+                }
+                ViewBag.SelectedDateSum = sumFirst;
 
-            return View();
+                int sumBetween = 0;
+                var allInvoices1 = _context.Invoices.Where(dd => dd.IssuedDate >= startDate && dd.IssuedDate <= endDate).ToArray();
+                foreach (var invoice in allInvoices1)
+                {
+                    int x = Int32.Parse(invoice.Value);
+                    sumBetween += x;
+                }
+                ViewBag.BetweenSum = sumBetween;
+                return View();
+            }//second and third textbox filled correctly and first one is empty/null
+            else if (DateTime.TryParseExact(Request.Form["datePickerStart"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out startDate)
+                && DateTime.TryParseExact(Request.Form["datePickerEnd"].ToString(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out endDate))
+            {
+                int sumBetween = 0;
+                var allInvoices1 = _context.Invoices.Where(dd => dd.IssuedDate >= startDate && dd.IssuedDate <= endDate).ToArray();
+                foreach (var invoice in allInvoices1)
+                {
+                    int x = Int32.Parse(invoice.Value);
+                    sumBetween += x;
+                }
+                ViewBag.BetweenSum = sumBetween;
+                return View();
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "The date introduced is not valid. Please use this format: day/month/year";
+                return View();
+            }
         }
 
         public async Task<ActionResult> UserSubStats()
@@ -158,6 +193,28 @@ namespace VirtualTrainer.Controllers
                 sumCurrUsers += 1;
             }
             ViewBag.TodaysUsers = sumCurrUsers;
+        }
+
+        public async Task<ActionResult> ValuesPerMonth()
+        {
+            List<int> values = new List<int>();
+            string[] months= System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames;
+            List<string> days = new List<string>(months.SkipLast(1));
+            for(int i = 1; i < 13; i++)
+            {
+                var invoices = _context.Invoices.Where(mm => mm.IssuedDate.Month == i).ToArray();
+                int sum = 0;
+                foreach (var invoice in invoices)
+                {
+                    int x = Int32.Parse(invoice.Value);
+                    sum += x;
+                }
+                values.Add(sum);
+            }
+            var group = new ValuesPerMonth();
+            group.Values = values.ToArray();
+            group.Months = days.ToArray();
+            return View(group);
         }
     }
 }
