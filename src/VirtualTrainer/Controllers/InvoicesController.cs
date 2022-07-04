@@ -36,6 +36,30 @@ namespace VirtualTrainer.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 invoices = invoices.Where(u => u.UserName.Contains(searchString));
+                if(invoices.Count() == 0)
+                {
+                    DateTime dDate;
+                    if(DateTime.TryParse(searchString, out dDate))
+                    {
+                        String.Format("{0:yyyy-MM-dd}", dDate);
+                        //parse the string to datetime then search DB for proper data
+                        var parsedDate = DateTime.Parse(searchString);
+                        invoices = _context.Invoices.Where(u => u.IssuedDate.Equals(parsedDate));
+
+                        //total value for the selected day
+                        var inv = _context.Invoices.Where(u => u.IssuedDate.Equals(parsedDate)).ToArray();
+                        var totalAmount = 0;
+                        foreach (Invoice invoice in inv)
+                        {
+                            totalAmount += Int32.Parse(invoice.Value);
+                        }
+                        ViewBag.TotalAmount = totalAmount;
+                    }
+                    else
+                    {
+                        ViewBag.DateMessage = "Incorrect date format. Try: year-month-day";
+                    }
+                }
             }
             switch (sortOrder)
             {
