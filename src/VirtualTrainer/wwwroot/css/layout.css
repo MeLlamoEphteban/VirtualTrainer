@@ -789,3 +789,19 @@ fieldset:disabled a.btn {
     opacity: 0.9;
     margin-left: 1rem;
 }
+
+.special__input {
+    height: 1.5rem;
+    border-radius: 5px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    transition: 0.5s;
+    outline: none;
+    margin-left:3px;
+    width: 185px;
+}
+
+.special__input:focus{
+    border:3px solid #555;
+}

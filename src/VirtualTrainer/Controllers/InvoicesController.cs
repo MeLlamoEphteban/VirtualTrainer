@@ -17,7 +17,7 @@ namespace VirtualTrainer.Controllers
         }
 
         // GET: Index
-        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string startDate, string endDate, string currentFilter, int? pageNumber)
         {
             var saliFitnessContext = _context.Invoices;
             ViewData["CurrentSort"] = sortOrder;
@@ -32,14 +32,19 @@ namespace VirtualTrainer.Controllers
                 searchString = currentFilter;
             }
             ViewData["CurrentFilter"] = searchString;
+            ViewData["StartDate"] = startDate;
+            ViewData["EndDate"] = endDate;
             IQueryable<Invoice> invoices = _context.Invoices;
+
             if (!String.IsNullOrEmpty(searchString))
             {
+                //verify if the string contains a name, not a date
                 invoices = invoices.Where(u => u.UserName.Contains(searchString));
-                if(invoices.Count() == 0)
+                //if the var is empty, means that the string is a date
+                if (invoices.Count() == 0)
                 {
                     DateTime dDate;
-                    if(DateTime.TryParse(searchString, out dDate))
+                    if (DateTime.TryParse(searchString, out dDate))
                     {
                         String.Format("{0:yyyy-MM-dd}", dDate);
                         //parse the string to datetime then search DB for proper data
@@ -60,7 +65,28 @@ namespace VirtualTrainer.Controllers
                         ViewBag.DateMessage = "Incorrect date format. Try: year-month-day";
                     }
                 }
+            }//verify if the interval selector is empty
+            else if (!String.IsNullOrEmpty(endDate) && !String.IsNullOrEmpty(startDate))
+            {
+                DateTime parsedStartDate;
+                DateTime parsedEndDate;
+                //verify the introduced data
+                if(DateTime.TryParse(startDate, out parsedStartDate) && DateTime.TryParse(endDate, out parsedEndDate))
+                {
+                    int sumBetween = 0;
+                    var allInvoices1 = _context.Invoices.Where(u => u.IssuedDate >= parsedStartDate && u.IssuedDate <= parsedEndDate).AsQueryable();
+                    foreach (var invoice in allInvoices1)
+                    {
+                        int x = Int32.Parse(invoice.Value);
+                        sumBetween += x;
+                    }
+                    ViewBag.TotalAmount = sumBetween;
+                    invoices = allInvoices1;
+                }
+                else//if one string is not parsed properly, an error message will appear
+                    ViewBag.DateMessage = "Incorrect date format. Try: year-month-day";
             }
+
             switch (sortOrder)
             {
                 case "name_desc":
