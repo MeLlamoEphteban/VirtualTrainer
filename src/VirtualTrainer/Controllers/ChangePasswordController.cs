@@ -36,7 +36,7 @@ namespace VirtualTrainer.Controllers
             var subsID = userSubscriptionsData.Select(it => it.Idsubscription).ToArray();
             var subName = await _context.Subscriptions.Where(u => u.Idsubscription == subsID[0]).ToArrayAsync();
 
-
+            //user actual password
             var hasPassword = await userManager.HasPasswordAsync(user);
             var cpModel = new ChangePasswordModel();
             cpModel._userManager = userManager;
@@ -60,7 +60,7 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
-
+            //make the password change in the database
             var changePasswordResult = await userManager.ChangePasswordAsync(user, changePasswordModel.Input.OldPassword, changePasswordModel.Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {

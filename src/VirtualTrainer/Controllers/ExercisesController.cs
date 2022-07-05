@@ -21,7 +21,7 @@ namespace VirtualTrainer.Controllers
 
         // GET: Exercises
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
-        {
+        {//same as equipment
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 

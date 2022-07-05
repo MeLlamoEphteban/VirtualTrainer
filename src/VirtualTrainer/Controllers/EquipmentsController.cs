@@ -32,7 +32,7 @@ namespace VirtualTrainer.Controllers
                 searchString = currentFilter;
 
             ViewData["CurrentFilter"] = searchString;
-
+            //a list is populated to be used with the below sorting code
             var equipment = from e in _context.Equipment
                            select e;
             if(!String.IsNullOrEmpty(searchString))
@@ -66,6 +66,7 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound();
             }
+            //when an equipment is clicked, the database id for the item is collected and used to gather further information
             var equipment = await _context.Equipment.Where(e => e.Idequipment == id)
                 .FirstOrDefaultAsync();
 
@@ -73,7 +74,7 @@ namespace VirtualTrainer.Controllers
             {
                 return NotFound($"The equipment {id} does not exist in database!");
             }
-
+            //also checking if the current equipment has some exercises assigned by the gym trainer
             var ExercisesIDs = await _context.EquipmentExercises.Where(ex => ex.Idequipment == id)
                 .ToArrayAsync();
             if(ExercisesIDs.Length == 0)

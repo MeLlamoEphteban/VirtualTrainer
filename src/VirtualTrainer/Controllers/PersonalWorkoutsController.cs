@@ -21,6 +21,7 @@ namespace VirtualTrainer.Controllers
         //GET items
         public async Task<IActionResult> Index([FromServices] UserManager<IdentityUser> _userManager)
         {
+            //get current logged in user ID and use it to gather data
             var userId = _userManager.GetUserId(HttpContext.User);
             var userStart = await _context.Users.Where(u => u.UserAspNet == userId).ToArrayAsync();
             var userFinal = userStart[0].Iduser; //find the exact ID, example 27
@@ -123,7 +124,7 @@ namespace VirtualTrainer.Controllers
         }
 
         private void PopulateDropDownLists()
-        {
+        {//method to populate the entries for every select list
             var wPrograms = _context.WorkPrograms.ToArray().Select(it => new SelectListItem(it.ProgramName, it.IdworkProgram.ToString()));
             ViewBag.WorkPrograms = wPrograms.ToArray();
             var tPrograms = _context.ProgramTypes.ToArray().Select(it => new SelectListItem(it.ProgramTypeName, it.IdprogramType.ToString()));
@@ -149,7 +150,8 @@ namespace VirtualTrainer.Controllers
             }
             ViewData["Exercises"] = viewModel;
         }
-
+        //to add all the selected exercises, a group is created and for every exercise, an entry is created in the database
+        //to update/delete, first we gather the exercises for the current user program and delete them. Then add them again in database
         private void UpdateWorkoutExercises(string[] selectedExercises, PersonalWorkout workoutToUpdate)
         {
             if (selectedExercises == null)

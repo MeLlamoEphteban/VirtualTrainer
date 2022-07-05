@@ -110,6 +110,7 @@ namespace VirtualTrainer.Controllers
         // GET: Invoices/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            //id and details are gathered then displayed in a invoice model
             if (id == null)
             {
                 return NotFound();

@@ -128,7 +128,7 @@ namespace VirtualTrainer.Controllers
                     await _emailStore.SetEmailAsync(user, userView.Email, CancellationToken.None);
                     var result = await _userManager.CreateAsync(user, userView.Password);
                     var userId = await _userManager.GetUserIdAsync(user);
-
+                    //get the info introduced by the user and create a new account/client
                     var userNew = new User();
                     userNew.Email = userView.Email;
                     userNew.Name = userView.Name;
@@ -138,7 +138,7 @@ namespace VirtualTrainer.Controllers
                     userNew.Cnp = userView.Cnp;
                     userNew.UserAspNet = userId;
                     _context.Add(userNew);
-
+                    //after the client was created, a subscription can be assigned
                     userNew.UserSubscription = new UserSubscription();
                     //userNew.UserSubscription.StartDate = DateTime.Now;
                     userNew.UserSubscription.StartDate = userView.startDate;
@@ -146,7 +146,7 @@ namespace VirtualTrainer.Controllers
                     userNew.UserSubscription.Idsubscription = userView.Idsubscription;
 
                     await _context.SaveChangesAsync();
-
+                    //after the subscription was assigned, an invoice can be created/issued
                     var newInv = new Invoice();
                     var userS = await _context.Users.Where(u => u.UserAspNet == userId).FirstOrDefaultAsync();
                     newInv.IdUser = userS.Iduser;

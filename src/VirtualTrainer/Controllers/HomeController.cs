@@ -42,7 +42,7 @@ namespace VirtualTrainer.Controllers
         }
 
         public IActionResult About()
-        {
+        {//statistics lists are populated once the page is loaded
             TotalValue();
             CurrentDayValue();
             UsersNumber();
@@ -167,6 +167,7 @@ namespace VirtualTrainer.Controllers
 
         private void UsersNumber()
         {
+            //gather information about all active/nonactive users
             var date = DateTime.Now;
             var stringDate = DateTime.Now.ToString("yyyy-MM-dd");
             var allUsers = _context.UserSubscriptions.ToArray();
@@ -196,7 +197,7 @@ namespace VirtualTrainer.Controllers
         }
 
         public async Task<ActionResult> ValuesPerMonth()
-        {
+        {//collect all the values from invoices per different month
             List<int> values = new List<int>();
             string[] months= System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames;
             List<string> days = new List<string>(months.SkipLast(1));
