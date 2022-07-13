@@ -805,3 +805,28 @@ fieldset:disabled a.btn {
 .special__input:focus{
     border:3px solid #555;
 }
+
+.cp__input {
+    margin-top: 0.3rem;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border: 3px solid #535755;
+    transition: 0.2s;
+    outline: none;
+    height: 1.7rem;
+    border-radius: 3px;
+    padding: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.cp__longop{
+    width:25rem;
+}
+
+.cp__longnp {
+    width: 25rem;
+}
+
+.cp__longco {
+    width: 25rem;
+}

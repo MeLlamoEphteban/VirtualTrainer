@@ -4,41 +4,36 @@
     ViewData["Title"] = "Change password";
 }
 
-<h1>User account settings</h1>
+<h1 class="create__title">User account settings</h1>
 
 @if(System.DateTime.Now > @Model.ExpirationDate)
 {
-    <p>Please renew you subscription in one of our gyms to continue using the fitness equipment.</p>
+    <p style='text-align:center; margin-bottom:20px;'>Please renew you subscription in one of our gyms to continue using the fitness equipment.</p>
 }
 else
 {
-   <p>Your <strong>@Model.SubscriptionName</strong> subscription will expire on <strong>@Model.ExpirationDate</strong> .</p>
+   <p style='text-align:center; margin-bottom:20px;'>Your <strong>@Model.SubscriptionName</strong> subscription will expire on <strong>@Model.ExpirationDate</strong> .</p>
 }
 <br/>
-<h3>@ViewData["Title"]</h3>
-<div class="row">
-    <div class="col-md-6">
-        <form id="change-password-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <label asp-for="Input.OldPassword" class="form-label"></label>
-                <input asp-for="Input.OldPassword" class="form-control" autocomplete="current-password" aria-required="true" />
-                <span asp-validation-for="Input.OldPassword" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <label asp-for="Input.NewPassword" class="form-label"></label>
-                <input asp-for="Input.NewPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <br />
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Update password</button>
-        </form>
-    </div>
+<h3 class="create__title">@ViewData["Title"]</h3>
+<div class='create__container'>
+    <form id="change-password-form" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <input asp-for="Input.OldPassword" autocomplete="current-password" aria-required="true" class='cp__input cp__longop' placeholder='Current Password' />
+            <span asp-validation-for="Input.OldPassword"></span>
+        </div>
+        <div>
+            <input asp-for="Input.NewPassword" autocomplete="new-password" aria-required="true" class='cp__input cp__longnp' placeholder='New Password' />
+            <span asp-validation-for="Input.NewPassword"></span>
+        </div>
+        <div>
+            <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" class='cp__input cp__longco' placeholder='Confirm Password' />
+            <span asp-validation-for="Input.ConfirmPassword"></span>
+        </div>
+        <br />
+        <button type="submit" class='create__btn create__customBtn'>Update password</button>
+    </form>
 </div>
 
 @section Scripts {
