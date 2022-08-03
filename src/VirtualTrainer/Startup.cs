@@ -114,20 +114,28 @@ namespace VirtualTrainer
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            using (var scope = app.ApplicationServices.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<ApplicationDbContext>();
-                context.Database.EnsureCreated();
-                context.Database.Migrate();
-                // requires using Microsoft.Extensions.Configuration;
-                // Set password with the Secret Manager tool.
-                // dotnet user-secrets set SeedUserPW <pw>
 
-                var testUserPw = "Qwerty123!";
 
-                SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
+                    // requires using Microsoft.Extensions.Configuration;
+                    // Set password with the Secret Manager tool.
+                    // dotnet user-secrets set SeedUserPW <pw>
+
+                    var testUserPw = "Qwerty123!";
+
+                    SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
     }

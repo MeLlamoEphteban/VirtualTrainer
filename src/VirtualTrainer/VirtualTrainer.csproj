@@ -28,5 +28,8 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+	<PropertyGroup>
+		<PublishTrimmed>true</PublishTrimmed>
+	</PropertyGroup>
 
 </Project>
