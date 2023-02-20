@@ -19,6 +19,36 @@ namespace VirtualTrainer.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<PaginatedList<Exercise>> GetExercisesAsync()
+        {
+            int? pageNumber = 1;
+            string searchString = "";
+            string sortOrder = "";
+            //if (searchString != null)
+            //    pageNumber = 1;
+            //else
+            //    searchString = currentFilter;
+
+            var exercises = from e in _context.Exercises
+                            select e;
+            if (!String.IsNullOrEmpty(searchString))
+                exercises = exercises.Where(e => e.ExerciseName.Contains(searchString));
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    exercises = exercises.OrderByDescending(e => e.ExerciseName);
+                    break;
+                default:
+                    exercises = exercises.OrderBy(e => e.ExerciseName);
+                    break;
+            }
+
+            int pageSize = 15;
+            var result = await PaginatedList<Exercise>.CreateAsync(exercises.AsNoTracking(), pageNumber ?? 1, pageSize);
+            return result;
+        }
+
         // GET: Exercises
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {//same as equipment
