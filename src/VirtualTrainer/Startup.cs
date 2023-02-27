@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using VirtualTrainer.Authorization;
 using VirtualTrainer.Data;
+using VirtualTrainer.Controllers;
+using Asp.Versioning;
 
 namespace VirtualTrainer
 {
@@ -37,6 +39,9 @@ namespace VirtualTrainer
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
+            services.AddControllers()
+                .AddApplicationPart(typeof(ExercisesController).Assembly)
+                .AddControllersAsServices();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -85,6 +90,18 @@ namespace VirtualTrainer
                       ContactAdministratorsAuthorizationHandler>();
             services.AddSingleton<IAuthorizationHandler,
                 ContactManagerAuthorizationHandler>();
+
+
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            }); 
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,14 +122,17 @@ namespace VirtualTrainer
 
             app.UseRouting();
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
             try
             {
@@ -122,20 +142,20 @@ namespace VirtualTrainer
                 {
                     var services = scope.ServiceProvider;
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    context.Database.EnsureCreated();
-                    context.Database.Migrate();
+                    //context.Database.EnsureCreated();
+                    //context.Database.Migrate();
                     // requires using Microsoft.Extensions.Configuration;
                     // Set password with the Secret Manager tool.
                     // dotnet user-secrets set SeedUserPW <pw>
 
                     var testUserPw = "Qwerty123!";
 
-                    SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
+                    //SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.ToString());
             }
         }
     }

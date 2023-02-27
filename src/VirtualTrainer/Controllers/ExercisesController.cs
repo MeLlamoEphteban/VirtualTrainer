@@ -10,6 +10,9 @@ using VirtualTrainer.Models.ViewModels;
 
 namespace VirtualTrainer.Controllers
 {
+    [ApiController]
+    [Route("[controller]/[action]")]
+
     public class ExercisesController : Controller
     {
         private readonly SaliFitnessContext _context;
@@ -19,7 +22,7 @@ namespace VirtualTrainer.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet] 
         public async Task<PaginatedList<Exercise>> GetExercisesAsync()
         {
             int? pageNumber = 1;
@@ -50,6 +53,7 @@ namespace VirtualTrainer.Controllers
         }
 
         // GET: Exercises
+        [HttpGet]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {//same as equipment
             ViewData["CurrentSort"] = sortOrder;
@@ -80,6 +84,7 @@ namespace VirtualTrainer.Controllers
             return View(await PaginatedList<Exercise>.CreateAsync(exercises.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        [HttpGet]
         // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -112,6 +117,7 @@ namespace VirtualTrainer.Controllers
         }
 
         // GET: Exercises/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -142,6 +148,7 @@ namespace VirtualTrainer.Controllers
             return View(exercise);
         }
 
+        [HttpGet]
         // GET: Exercises/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -189,6 +196,7 @@ namespace VirtualTrainer.Controllers
             return View(exerciseToUpdate);
         }
 
+        [HttpGet]
         // GET: Exercises/Delete/5
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
