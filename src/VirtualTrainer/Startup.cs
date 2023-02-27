@@ -142,7 +142,7 @@ namespace VirtualTrainer
                 {
                     var services = scope.ServiceProvider;
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    //context.Database.EnsureCreated();
+                    context.Database.EnsureCreated();
                     //context.Database.Migrate();
                     // requires using Microsoft.Extensions.Configuration;
                     // Set password with the Secret Manager tool.
@@ -150,12 +150,12 @@ namespace VirtualTrainer
 
                     var testUserPw = "Qwerty123!";
 
-                    //SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
+                    SeedData.Initialize(services, testUserPw).ConfigureAwait(false).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
         }
     }
