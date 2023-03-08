@@ -36,9 +36,10 @@ namespace VirtualTrainer
             services.AddDbContext<SaliFitnessContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddCors();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddControllersWithViews();
+            //services.AddControllersWithViews();
             services.AddControllers()
                 .AddApplicationPart(typeof(ExercisesController).Assembly)
                 .AddControllersAsServices();
@@ -79,17 +80,17 @@ namespace VirtualTrainer
                 options.SlidingExpiration = true;
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //});
 
-            services.AddSingleton<IAuthorizationHandler,
-                      ContactAdministratorsAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler,
-                ContactManagerAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler,
+            //          ContactAdministratorsAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationHandler,
+            //    ContactManagerAuthorizationHandler>();
 
 
             services.AddApiVersioning(options =>
@@ -117,21 +118,25 @@ namespace VirtualTrainer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+            });
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseSwagger();
             app.UseSwaggerUI();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
             try

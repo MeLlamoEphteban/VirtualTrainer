@@ -23,7 +23,7 @@ namespace VirtualTrainer.Controllers
         }
 
         [HttpGet] 
-        public async Task<PaginatedList<Exercise>> GetExercisesAsync()
+        public async Task<PaginatedList<Exercise>> GetExercisesRaw()
         {
             int? pageNumber = 1;
             string searchString = "";
