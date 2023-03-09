@@ -2,43 +2,65 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom/client';
 import EditExercise from "./editExercise";
 
+function Row({item}) {
+  const [showEdit, setShowEdit] = useState(false);
+  const handleEdit = () => {
+      //EditExercise(item.idexercise);
+      setShowEdit(true);
+  }
+  if(!showEdit)
+  {
+    return (
+      <tr>
+        <td>{item.exerciseName}</td>
+        <td>{item.instructions}</td>
+        <td>
+          <button onClick={handleEdit}>Edit</button>
+        </td>
+      </tr>
+      );
+  }else{
+    return (
+      <tr>
+        <td colSpan={3}><EditExercise id={item.idexercise} handleEdit={setShowEdit}/></td>
+      </tr>
+    )
+  }
+}
+
 function MyComponent() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:5000/Exercises/GetExercisesRaw")
       .then(res => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
-          setItems(result);
+          setData(result);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.error(error);
         }
       )
   }, [])
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
     return (
-      <ul>
-        {items.map(item => (
-          <li key={item.idexercise}>
-            {item.idexercise} {item.exerciseName}
-          </li>
+      <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(item => (
+          <Row key={item.idexercise} item={item} />
         ))}
-      </ul>
+      </tbody>
+    </table>
     );
   }
-}
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<MyComponent />);

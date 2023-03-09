@@ -52,6 +52,19 @@ namespace VirtualTrainer.Controllers
             return result;
         }
 
+        [HttpGet]
+        public async Task<Exercise> GetExerciseId(int? id)
+        {
+            if(id == null) return null;
+
+            var exercise = await _context.Exercises.FindAsync(id);
+            if (exercise == null) return null;
+
+            return exercise;
+        }
+
+
+
         // GET: Exercises
         [HttpGet]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
