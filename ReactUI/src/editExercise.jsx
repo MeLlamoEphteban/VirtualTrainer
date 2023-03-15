@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 
-function EditExercise({id, handleEdit}){
+function EditExercise(){
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [item, setItem] = useState([]);
 
+    let { exerciseID } = useParams();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        fetch(`http://localhost:5000/Exercises/GetExerciseId?id=${id}`)
+        fetch(`http://localhost:5000/Exercises/GetExerciseId?id=${exerciseID}`)
         .then(res => res.json())
         .then(
             (result) => {
@@ -18,8 +22,12 @@ function EditExercise({id, handleEdit}){
                 setError(error);
         }
         )
-    }, [id])
+    }, [exerciseID])
 
+    const gotoExercises = () => {
+      navigate("/Exercises");
+    }
+    
     if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -31,7 +39,7 @@ function EditExercise({id, handleEdit}){
         <input type="text" id="name" value={item.exerciseName} />
         <label>Exercise Instructions</label>
         <input type="text" id="desc" value={item.instructions} />
-        <button onClick={() => handleEdit(false)}>Cancel Edit</button>
+        <button onClick={gotoExercises}>Cancel Edit</button>
         </>
     );
   }
