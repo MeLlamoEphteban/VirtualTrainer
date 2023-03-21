@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import EditExercise from "../editExercise";
+import { useNavigate } from 'react-router-dom';
 
 function Row({item}) {
+  const navigate = useNavigate();
+
   const handleEdit = (id) => {
       //EditExercise(item.idexercise);
       //setShowEdit(true);
-      window.location = "/Exercises/Edit/" + id;
+      navigate("/Exercises/Edit/" + id);
   }
     return (
       <tr>
         <td>{item.exerciseName}</td>
         <td>{item.instructions}</td>
+        <td>{item.reps}</td>
+        <td>{item.sets}</td>
+        <td>{item.weight}</td>
         <td>
           <button onClick={() => handleEdit(item.idexercise)}>Edit</button>
         </td>
@@ -41,6 +46,9 @@ function MyComponent() {
         <tr>
           <th>Name</th>
           <th>Description</th>
+          <th>Reps</th>
+          <th>Sets</th>
+          <th>Weight</th>
           <th>Actions</th>
         </tr>
       </thead>

@@ -39,6 +39,12 @@ function EditExercise(){
         <input type="text" id="name" value={item.exerciseName} />
         <label>Exercise Instructions</label>
         <input type="text" id="desc" value={item.instructions} />
+        <label>Reps</label>
+        <input type="text" id="reps" value={item.reps} />
+        <label>Sets</label>
+        <input type="text" id="sets" value={item.sets} />
+        <label>Weight</label>
+        <input type="text" id="weight" value={item.weight} />
         <button onClick={gotoExercises}>Cancel Edit</button>
         </>
     );

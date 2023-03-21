@@ -12,6 +12,9 @@ using VirtualTrainer.Models.ViewModels;
 
 namespace VirtualTrainer.Controllers
 {
+    [ApiController]
+    [Route("[controller]/[action]")]
+
     public class UsersController : Controller
     {
         private readonly SaliFitnessContext _context;
@@ -21,6 +24,35 @@ namespace VirtualTrainer.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<PaginatedList<User>> GetUsersRaw()
+        {
+            int? pageNumber = 1;
+            int pageSize = 15;
+            var users = _context.Users.Include(x => x.UserSubscription.IdsubscriptionNavigation);
+            //var users = from e in _context.Users
+            //            select e;
+            var result = await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize);
+            foreach(var user in result)
+            {
+                user.UserSubscription.IdsubscriptionNavigation.UserSubscriptions = null;
+                user.UserSubscription.IduserNavigation = null;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<User> GetUserId(int? id)
+        {
+            if (id == null) return null;
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return null;
+
+            return user;
+        }
+
+        [HttpGet]
         // GET: Users
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
@@ -69,6 +101,7 @@ namespace VirtualTrainer.Controllers
             return View(await PaginatedList<User>.CreateAsync(users.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        [HttpGet]
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -102,6 +135,7 @@ namespace VirtualTrainer.Controllers
             return View(du);
         }
 
+        [HttpGet]
         // GET: Users/Create
         public IActionResult Create()
         {
@@ -173,6 +207,7 @@ namespace VirtualTrainer.Controllers
             return View(userView);
         }
 
+        [HttpGet]
         // GET
         public async Task<IActionResult> Renew(int? id)
         {
@@ -250,6 +285,7 @@ namespace VirtualTrainer.Controllers
             }
         }
 
+        [HttpGet]
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -305,6 +341,7 @@ namespace VirtualTrainer.Controllers
             ViewBag.SubscriptionID = userSub.ToArray();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)

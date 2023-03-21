@@ -42,7 +42,9 @@ namespace VirtualTrainer
             //services.AddControllersWithViews();
             services.AddControllers()
                 .AddApplicationPart(typeof(ExercisesController).Assembly)
+                .AddApplicationPart(typeof(UsersController).Assembly)
                 .AddControllersAsServices();
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
