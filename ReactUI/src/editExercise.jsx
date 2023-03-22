@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
+import { post } from "jquery";
 
 function EditExercise(){
     const [error, setError] = useState(null);
@@ -28,6 +29,23 @@ function EditExercise(){
       navigate("/Exercises");
     }
     
+    function Form() {
+      const [exName, setExName] = useState('');
+      const [exInstr, setExInsts] = useState('');
+      const [reps, setReps] = useState('');
+      const [sets, setSets] = useState('');
+      const [weight, setWeight] = useState('');
+
+      useEffect(() => {
+        post('http://localhost:5000/Exercises/GetExercisesRaw', { eventName: 'exerciseForm' });
+      }, []);
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        post('http://localhost:5000/Exercises/SaveExercise', { exName, exInstr, reps, sets, weight });
+      }
+    }
+
     if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -35,17 +53,20 @@ function EditExercise(){
   } else {
     return (
         <>
+        <form id="exerciseForm">
         <label>Exercise Name</label>
-        <input type="text" id="name" value={item.exerciseName} />
+        <input type="text" id="name" defaultValue={item.exerciseName} />
         <label>Exercise Instructions</label>
-        <input type="text" id="desc" value={item.instructions} />
+        <input type="text" id="desc" defaultValue={item.instructions} />
         <label>Reps</label>
-        <input type="text" id="reps" value={item.reps} />
+        <input type="text" id="reps" defaultValue={item.reps} />
         <label>Sets</label>
-        <input type="text" id="sets" value={item.sets} />
+        <input type="text" id="sets" defaultValue={item.sets} />
         <label>Weight</label>
-        <input type="text" id="weight" value={item.weight} />
+        <input type="text" id="weight" defaultValue={item.weight} />
+        <button type="submit" onClick={Form}>Save</button>
         <button onClick={gotoExercises}>Cancel Edit</button>
+        </form>
         </>
     );
   }
