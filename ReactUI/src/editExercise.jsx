@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
-import { post } from "jquery";
 
 function EditExercise(){
     const [error, setError] = useState(null);
@@ -11,6 +10,7 @@ function EditExercise(){
     const [reps, setReps] = useState("");
     const [weight, setWeight] = useState("");
     const [instructions, setExInstr] = useState("");
+    const [idexercise, setExID] = useState("");
 
     let { exerciseID } = useParams();
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ function EditExercise(){
         .then(res => res.json())
         .then(
             (result) => {
+                setExID(result.idexercise)
                 setSets(result.sets);
                 setReps(result.reps);
                 setWeight(result.weight);
@@ -45,10 +46,11 @@ function EditExercise(){
       try {
         let res = await fetch("http://localhost:5000/Exercises/SaveExercise", {
           method: "POST",
-           headers: {
+          headers: {
     'Content-Type': 'application/json'
     },
           body: JSON.stringify({
+            idexercise: idexercise,
             exerciseName: exerciseName,
             sets: sets,
             reps: reps,
@@ -56,7 +58,6 @@ function EditExercise(){
             instructions: instructions,
           }),
         });
-        let resJson = await res.json();
         if(res.status === 200) {
           exerciseName("");
           sets("");
