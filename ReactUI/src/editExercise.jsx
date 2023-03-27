@@ -5,8 +5,7 @@ import { post } from "jquery";
 function EditExercise(){
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [item, setItem] = useState([]);
-
+    
     const [exerciseName, setExName] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
@@ -17,12 +16,18 @@ function EditExercise(){
     const navigate = useNavigate();
 
     useEffect(() => {
+
+      
         fetch(`http://localhost:5000/Exercises/GetExerciseId?id=${exerciseID}`)
         .then(res => res.json())
         .then(
             (result) => {
+                setSets(result.sets);
+                setReps(result.reps);
+                setWeight(result.weight);
+                setExName(result.exerciseName);
+                setExInstr(result.instructions);
                 setIsLoaded(true);
-                setItem(result);
             },
             (error) => {
                 setIsLoaded(true);
@@ -40,6 +45,9 @@ function EditExercise(){
       try {
         let res = await fetch("http://localhost:5000/Exercises/SaveExercise", {
           method: "POST",
+           headers: {
+    'Content-Type': 'application/json'
+    },
           body: JSON.stringify({
             exerciseName: exerciseName,
             sets: sets,
@@ -70,15 +78,15 @@ function EditExercise(){
         <>
         <form onSubmit={handleSubmit}>
         <label>Exercise Name</label>
-        <input type="text" id="name" defaultValue={item.exerciseName} onChange={(e) => setExName(e.target.value)} />
+        <input type="text" id="name" defaultValue={exerciseName} onChange={(e) => setExName(e.target.value)} />
         <label>Sets</label>
-        <input type="text" id="sets" defaultValue={item.sets} onChange={(e) => setSets(Number(e.target.value))} />
+        <input type="text" id="sets" defaultValue={sets} onChange={(e) => setSets(Number(e.target.value))} />
         <label>Reps</label>
-        <input type="text" id="reps" defaultValue={item.reps} onChange={(e) => setReps(Number(e.target.value))} />
+        <input type="text" id="reps" defaultValue={reps} onChange={(e) => setReps(Number(e.target.value))} />
         <label>Weight</label>
-        <input type="text" id="weight" defaultValue={item.weight} onChange={(e) => setWeight(Number(e.target.value))} />
+        <input type="text" id="weight" defaultValue={weight} onChange={(e) => setWeight(Number(e.target.value))} />
         <label>Exercise Instructions</label>
-        <input type="text" id="desc" defaultValue={item.instructions} onChange={(e) => setExInstr(e.target.value)} />
+        <input type="text" id="desc" defaultValue={instructions} onChange={(e) => setExInstr(e.target.value)} />
         <button type="submit">Save</button>
         <button onClick={gotoExercises}>Cancel Edit</button>
         </form>
