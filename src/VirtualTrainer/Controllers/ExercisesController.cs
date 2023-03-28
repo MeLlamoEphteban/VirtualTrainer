@@ -82,6 +82,23 @@ namespace VirtualTrainer.Controllers
             return exercise;
         }
 
+        [HttpPost]
+        public async Task<Exercise> CreateExercise([FromBody] ExercisePost exerciseId)
+        {
+            if (exerciseId == null) return null;
+            var exercise = new Exercise();
+
+            exercise.ExerciseName = exerciseId.ExerciseName;
+            exercise.Sets = exerciseId.Sets;
+            exercise.Reps = exerciseId.Reps;
+            exercise.Weight = exerciseId.Weight;
+            exercise.Instructions = exerciseId.Instructions;
+
+            _context.Exercises.Add(exercise);
+            _context.SaveChanges();
+
+            return exercise;
+        }
 
 
         // GET: Exercises

@@ -16,8 +16,6 @@ function EditExercise(){
     const navigate = useNavigate();
 
     useEffect(() => {
-
-      
         fetch(`http://localhost:5000/Exercises/GetExerciseId?id=${exerciseID}`)
         .then(res => res.json())
         .then(
@@ -59,11 +57,7 @@ function EditExercise(){
           }),
         });
         if(res.status === 200) {
-          exerciseName("");
-          sets("");
-          reps("");
-          weight("");
-          instructions("");
+          gotoExercises();
         }
       } catch(err) {
         console.log(err);

@@ -4,6 +4,7 @@ import Exercises from './pages/Exercises';
 import Users from './pages/Users';
 import EditExercise from './editExercise';
 import EditUser from './editUser';
+import CreateExercise from './createExercise';
 
 export default function Navbar() {
     return (
@@ -21,6 +22,7 @@ export default function Navbar() {
             <Route path='/Exercises' element={<Exercises />}>Exercises</Route>
             <Route path='/Users' element={<Users />}>Users</Route>
             <Route path='/Exercises/Edit/:exerciseID' element={<EditExercise />}></Route>
+            <Route path='/Exercises/Create' element={<CreateExercise />}></Route>
             <Route path='/Users/Edit/:userID' element={<EditUser />}></Route>
         </Routes>
         </BrowserRouter>

@@ -25,7 +25,7 @@ function Row({item}) {
 
 function MyComponent() {
   const [data, setData] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch("http://localhost:5000/Exercises/GetExercisesRaw")
       .then(res => res.json())
@@ -39,8 +39,13 @@ function MyComponent() {
       )
   }, [])
 
+    const handleCreate = () => {
+      navigate("/Exercises/Create");
+    }
+
     return (
       <>
+      <h3 onClick={() => handleCreate()}>Create Exercise</h3>
       <table>
       <thead>
         <tr>
