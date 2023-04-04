@@ -33,14 +33,27 @@ function CreateExercise(){
             if(res.status === 200) {
                 gotoExercises();
             }
+            if(res.status === 500){
+                window.alert("An error occurred. Look into the console.");
+                console.error("Create error", res);
+            }
         } catch(err) {
-            console.log(err);
+            window.alert("An error occurred. Look into the console.");
+            console.error("Create error", err);
         }
     };
+    
+    const setWeightWithAlert = (value) => {
+        if(value <= 0)
+        {
+            window.alert("Cannot set negative value for Weight!");
+            return
+        }
+        setWeight(value);
+    }
 
     return (
         <>
-        <form onSubmit={handleSubmit}>
         <label>Exercise Name</label>
         <input type="text" id="name" onChange={(e) => setExName(e.target.value)} />
         <label>Sets</label>
@@ -48,12 +61,11 @@ function CreateExercise(){
         <label>Reps</label>
         <input type="text" id="reps" onChange={(e) => setReps(Number(e.target.value))} />
         <label>Weight</label>
-        <input type="text" id="weight" onChange={(e) => setWeight(Number(e.target.value))} />
+        <input type="text" id="weight" onChange={(e) => setWeightWithAlert(Number(e.target.value))} />
         <label>Exercise Instructions</label>
         <input type="text" id="desc" onChange={(e) => setExInstr(e.target.value)} />
-        <button type="submit">Create</button>
+        <button onClick={handleSubmit}>Create</button>
         <button onClick={gotoExercises}>Cancel Create</button>
-        </form>
         </>
     )
 }

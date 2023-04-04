@@ -9,6 +9,30 @@ function Row({item}) {
       //setShowEdit(true);
       navigate("/Exercises/Edit/" + id);
   }
+
+  const handleDelete = (id) => {
+    //navigate("/Exercises/Delete/" + id);
+    const response = window.confirm("Are you sure you want to delete the item?");
+
+    if(response){
+      try{
+        let res = fetch(`http://localhost:5000/Exercises/DeleteExercise?id=${id}`, {
+          method: "POST"
+        });
+        if(res.status === 200)
+        {
+          window.alert("Selection deleted!");
+        }
+      } catch(err){
+        console.log(err);
+      }
+    }
+    else
+    {
+      window.alert("Action aborted!");
+    }
+  }
+
     return (
       <tr>
         <td>{item.exerciseName}</td>
@@ -18,6 +42,9 @@ function Row({item}) {
         <td>{item.weight}</td>
         <td>
           <button onClick={() => handleEdit(item.idexercise)}>Edit</button>
+        </td>
+        <td>
+          <button onClick={() => handleDelete(item.idexercise)}>Delete</button>
         </td>
       </tr>
       );
@@ -54,7 +81,8 @@ function MyComponent() {
           <th>Reps</th>
           <th>Sets</th>
           <th>Weight</th>
-          <th>Actions</th>
+          <th>Action</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>

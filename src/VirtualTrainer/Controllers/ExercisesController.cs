@@ -47,7 +47,7 @@ namespace VirtualTrainer.Controllers
                     break;
             }
 
-            int pageSize = 15;
+            int pageSize = int.MaxValue-1;
             var result = await PaginatedList<Exercise>.CreateAsync(exercises.AsNoTracking(), pageNumber ?? 1, pageSize);
             return result;
         }
@@ -88,6 +88,11 @@ namespace VirtualTrainer.Controllers
             if (exerciseId == null) return null;
             var exercise = new Exercise();
 
+            if(exerciseId.Weight <= 0)
+            {
+                throw new ArgumentException("The weight cannot be negative!");
+            }
+
             exercise.ExerciseName = exerciseId.ExerciseName;
             exercise.Sets = exerciseId.Sets;
             exercise.Reps = exerciseId.Reps;
@@ -98,6 +103,27 @@ namespace VirtualTrainer.Controllers
             _context.SaveChanges();
 
             return exercise;
+        }
+
+        [HttpPost]
+        public async Task<Exercise> DeleteExercise(int? id)
+        {
+            if (id == null) return null;
+
+            var exercise = await _context.Exercises.FindAsync(id);
+            if (exercise == null) return null;
+
+            try
+            {
+                _context.Exercises.Remove(exercise);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new DbUpdateException("Selected exercise couldn't be deleted.");
+            }
+            var emptyBody = new Exercise();
+            return emptyBody;
         }
 
 

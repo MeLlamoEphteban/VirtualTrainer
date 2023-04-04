@@ -71,7 +71,6 @@ function EditExercise(){
   } else {
     return (
         <>
-        <form onSubmit={handleSubmit}>
         <label>Exercise Name</label>
         <input type="text" id="name" defaultValue={exerciseName} onChange={(e) => setExName(e.target.value)} />
         <label>Sets</label>
@@ -82,9 +81,8 @@ function EditExercise(){
         <input type="text" id="weight" defaultValue={weight} onChange={(e) => setWeight(Number(e.target.value))} />
         <label>Exercise Instructions</label>
         <input type="text" id="desc" defaultValue={instructions} onChange={(e) => setExInstr(e.target.value)} />
-        <button type="submit">Save</button>
+        <button onClick={handleSubmit}>Save</button>
         <button onClick={gotoExercises}>Cancel Edit</button>
-        </form>
         </>
     );
   }
