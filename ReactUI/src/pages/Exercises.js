@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function Row({item}) {
+function Row({item, deleteMe}) {
   const navigate = useNavigate();
+  const [active, setActive] = useState(false);
 
   const handleEdit = (id) => {
       //EditExercise(item.idexercise);
@@ -10,31 +11,37 @@ function Row({item}) {
       navigate("/Exercises/Edit/" + id);
   }
 
-  const handleDelete = (id) => {
-    //navigate("/Exercises/Delete/" + id);
+  function timeout(delay){
+    return new Promise( res => setTimeout(res, delay));
+  }
+
+  const handleDelete = async (id) => {
+    setActive(true);
+    await timeout(300);
     const response = window.confirm("Are you sure you want to delete the item?");
 
     if(response){
-      try{
         let res = fetch(`http://localhost:5000/Exercises/DeleteExercise?id=${id}`, {
           method: "POST"
-        });
+        }).then ((res) => {
+          
         if(res.status === 200)
         {
           window.alert("Selection deleted!");
+          deleteMe(item);
         }
-      } catch(err){
-        console.log(err);
-      }
+      }).catch((e) => {
+        console.log("Error in fetch", e);
+      })
     }
     else
     {
+      setActive(false);
       window.alert("Action aborted!");
     }
   }
-
     return (
-      <tr>
+      <tr style={{backgroundColor: active ? "red" : "white"}}>
         <td>{item.exerciseName}</td>
         <td>{item.instructions}</td>
         <td>{item.reps}</td>
@@ -48,11 +55,17 @@ function Row({item}) {
         </td>
       </tr>
       );
-}
+    }
 
 function MyComponent() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  const deleteChild = (child) => {
+    var x = data.filter(value => value != child);
+    setData(x);
+  }
+
   useEffect(() => {
     fetch("http://localhost:5000/Exercises/GetExercisesRaw")
       .then(res => res.json())
@@ -87,7 +100,7 @@ function MyComponent() {
       </thead>
       <tbody>
         {data.map(item => (
-          <Row key={item.idexercise} item={item} />
+          <Row key={item.idexercise} item={item} deleteMe={deleteChild}/>
         ))}
       </tbody>
     </table>

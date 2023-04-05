@@ -106,12 +106,12 @@ namespace VirtualTrainer.Controllers
         }
 
         [HttpPost]
-        public async Task<Exercise> DeleteExercise(int? id)
+        public async Task DeleteExercise(int? id)
         {
-            if (id == null) return null;
+            if (id == null) return;
 
             var exercise = await _context.Exercises.FindAsync(id);
-            if (exercise == null) return null;
+            if (exercise == null) return;
 
             try
             {
@@ -122,8 +122,6 @@ namespace VirtualTrainer.Controllers
             {
                 throw new DbUpdateException("Selected exercise couldn't be deleted.");
             }
-            var emptyBody = new Exercise();
-            return emptyBody;
         }
 
 
