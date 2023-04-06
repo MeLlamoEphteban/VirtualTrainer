@@ -37,16 +37,16 @@ namespace VirtualTrainer.Controllers
                             select e;
             if (!String.IsNullOrEmpty(searchString))
                 exercises = exercises.Where(e => e.ExerciseName.Contains(searchString));
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    exercises = exercises.OrderByDescending(e => e.ExerciseName);
-                    break;
-                default:
-                    exercises = exercises.OrderBy(e => e.ExerciseName);
-                    break;
-            }
-
+            //switch (sortOrder)
+            //{
+            //    case "name_desc":
+            //        exercises = exercises.OrderByDescending(e => e.ExerciseName);
+            //        break;
+            //    default:
+            //        exercises = exercises.OrderBy(e => e.ExerciseName);
+            //        break;
+            //}
+            exercises = exercises.OrderByDescending(e => e.Idexercise);
             int pageSize = int.MaxValue-1;
             var result = await PaginatedList<Exercise>.CreateAsync(exercises.AsNoTracking(), pageNumber ?? 1, pageSize);
             return result;

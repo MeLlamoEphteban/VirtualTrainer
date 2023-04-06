@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function Row({item, deleteMe}) {
+function Row({item, deleteMe, index}) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -42,6 +42,7 @@ function Row({item, deleteMe}) {
   }
     return (
       <tr style={{backgroundColor: active ? "red" : "white"}}>
+        <td>{index+1}</td>
         <td>{item.exerciseName}</td>
         <td>{item.instructions}</td>
         <td>{item.reps}</td>
@@ -89,6 +90,7 @@ function MyComponent() {
       <table>
       <thead>
         <tr>
+          <th></th>
           <th>Name</th>
           <th>Description</th>
           <th>Reps</th>
@@ -99,8 +101,8 @@ function MyComponent() {
         </tr>
       </thead>
       <tbody>
-        {data.map(item => (
-          <Row key={item.idexercise} item={item} deleteMe={deleteChild}/>
+        {data.map((item, index) => (
+          <Row key={item.idexercise} item={item} deleteMe={deleteChild} index={index}/>
         ))}
       </tbody>
     </table>
