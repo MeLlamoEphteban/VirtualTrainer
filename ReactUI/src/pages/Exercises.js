@@ -21,8 +21,8 @@ function Row({item, deleteMe, index}) {
     const response = window.confirm("Are you sure you want to delete the item?");
 
     if(response){
-        let res = fetch(`http://localhost:5000/Exercises/DeleteExercise?id=${id}`, {
-          method: "POST"
+        let res = fetch(`http://localhost:5000/Exercises/DeleteExercise/${id}`, {
+          method: "DELETE"
         }).then ((res) => {
           
         if(res.status === 200)
@@ -101,8 +101,8 @@ function MyComponent() {
         </tr>
       </thead>
       <tbody>
-        {data.map((item, index) => (
-          <Row key={item.idexercise} item={item} deleteMe={deleteChild} index={index}/>
+        {data.map((item, indexMap) => (
+          <Row key={item.idexercise} item={item} deleteMe={deleteChild} index={indexMap}/>
         ))}
       </tbody>
     </table>

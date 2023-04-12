@@ -12,6 +12,7 @@ namespace VirtualTrainer.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
+    //[Route("api/[controller]/[action]")]
 
     public class ExercisesController : Controller
     {
@@ -105,7 +106,7 @@ namespace VirtualTrainer.Controllers
             return exercise;
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task DeleteExercise(int? id)
         {
             if (id == null) return;
