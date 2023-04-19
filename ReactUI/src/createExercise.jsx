@@ -9,11 +9,11 @@ function CreateExercise(){
     const [instructions, setExInstr] = useState("");
     const navigate = useNavigate();
 
-    const gotoExercises =() => {
+    const gotoExercises = () => {
         navigate("/Exercises");
     }
 
-    let handleSubmit =async (e) => {
+    let handleSubmit = async (e) => {
         e.preventDefault();
         try {
             let res = await fetch("http://localhost:5000/Exercises/CreateExercise", {

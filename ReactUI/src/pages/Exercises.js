@@ -21,7 +21,7 @@ function Row({item, deleteMe, index}) {
     const response = window.confirm("Are you sure you want to delete the item?");
 
     if(response){
-        let res = fetch(`http://localhost:5000/Exercises/DeleteExercise/${id}`, {
+        let res = fetch(`http://localhost:5000/api/Exercises/DeleteExercise/${id}`, {
           method: "DELETE"
         }).then ((res) => {
           
@@ -68,7 +68,7 @@ function MyComponent() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/Exercises/GetExercisesRaw")
+    fetch("http://localhost:5000/api/Exercises/GetExercisesRaw")
       .then(res => res.json())
       .then(
         (result) => {

@@ -12,8 +12,8 @@ using VirtualTrainer.Models.ViewModels;
 
 namespace VirtualTrainer.Controllers
 {
-    [ApiController]
-    [Route("[controller]/[action]")]
+    //[ApiController]
+    //[Route("[controller]/[action]")]
 
     public class UsersController : Controller
     {

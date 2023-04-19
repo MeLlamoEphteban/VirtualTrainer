@@ -16,11 +16,11 @@ function EditExercise(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/Exercises/GetExerciseId?id=${exerciseID}`)
+        fetch(`http://localhost:5000/api/Exercises/GetExerciseId/${exerciseID}`)
         .then(res => res.json())
         .then(
             (result) => {
-                setExID(result.idexercise)
+                setExID(result.idexercise);
                 setSets(result.sets);
                 setReps(result.reps);
                 setWeight(result.weight);
@@ -42,8 +42,8 @@ function EditExercise(){
     let handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        let res = await fetch("http://localhost:5000/Exercises/SaveExercise", {
-          method: "POST",
+        let res = await fetch("http://localhost:5000/api/Exercises/SaveExercise", {
+          method: "PUT",
           headers: {
     'Content-Type': 'application/json'
     },

@@ -11,8 +11,7 @@ using VirtualTrainer.Models.ViewModels;
 namespace VirtualTrainer.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
-    //[Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
 
     public class ExercisesController : Controller
     {
@@ -53,7 +52,7 @@ namespace VirtualTrainer.Controllers
             return result;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<Exercise> GetExerciseId(int? id)
         {
             if(id == null) return null;
@@ -64,7 +63,7 @@ namespace VirtualTrainer.Controllers
             return exercise;
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<Exercise> SaveExercise([FromBody]ExercisePost exerciseId)
         {
             if (exerciseId == null) return null;
